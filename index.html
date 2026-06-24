@@ -1,0 +1,2928 @@
+<!DOCTYPE html>
+<html lang="cz" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TK | Fotografie, Projekty, Letectví</title>
+
+<!-- ═══════════════════════════════════════════════════════
+     FAVICON — Use theme-specific site logo assets
+     ═══════════════════════════════════════════════════════ -->
+<link rel="icon" type="image/svg+xml" id="favicon" href="assets/sitelogo_darkmode.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<!-- marked.js — lightweight Markdown → HTML renderer used by project detail pages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+
+<style>
+/* ════════════════════════════════════════════════════════════════
+   DESIGN TOKENS — Edit these to retheme the entire site at once
+   ════════════════════════════════════════════════════════════════ */
+:root {
+  /* Light palette */
+  --bg:          #F1ECE1;
+  --surface:     #E8E2D5;
+  --surface-2:   #DDD6C6;
+  --text:        #19170F;
+  --text-muted:  #68604F;
+  --text-faint:  #A09070;
+  --border:      rgba(25,23,15,.13);
+  --accent:      #C0392B;   /* primary accent — terracotta red  */
+  --accent-2:    #D4872A;   /* secondary accent — amber         */
+  --grain-op:    .032;
+  --sh:  0 2px 18px rgba(25,23,15,.10);
+  --sh2: 0 8px 44px rgba(25,23,15,.16);
+
+  /* Retro stripe palette */
+  --s1:#3E2510; --s2:#B83225; --s3:#D96B2E; --s4:#E8A838; --s5:#C9A882;
+
+  /* Type */
+  --fd:'Bebas Neue',sans-serif;
+  --fb:'IBM Plex Mono',monospace;
+  --fs:'Playfair Display',serif;
+
+  /* Layout */
+  --nav-h:60px;
+  --mw:1200px;
+  --pad:clamp(18px,4vw,52px);
+  --t:.22s ease;
+
+  /* Solar graphic — bridge asset vars to site theme */
+  --bg-color:     var(--bg);
+  --stroke-color: var(--text);
+  --sun-color:    var(--accent);
+  --ui-accent:    var(--border);
+}
+[data-theme="dark"] {
+  --bg:         #0C0B08;
+  --surface:    #161410;
+  --surface-2:  #1F1D15;
+  --text:       #EEE6D3;
+  --text-muted: #887D6A;
+  --text-faint: #443D30;
+  --border:     rgba(238,230,211,.08);
+  --accent:     #E04B38;
+  --accent-2:   #E08A30;
+  --grain-op:   .055;
+  --sh:  0 2px 22px rgba(0,0,0,.50);
+  --sh2: 0 8px 52px rgba(0,0,0,.72);
+}
+
+/* ──────────────────────── RESET ─────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);
+     min-height:100vh;overflow-x:hidden;transition:background var(--t),color var(--t);
+     cursor:default}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:var(--fb);cursor:default}
+
+@media(hover:none){
+  body,button,a{cursor:auto}
+}
+
+/* ──────────────────────── GRAIN OVERLAY (static) ───────────── */
+#grain{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:9000;pointer-events:none;opacity:var(--grain-op);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:190px 190px;
+  transition:opacity var(--t);
+}
+
+/* ──────────────────────── SCROLL PROGRESS ──────────────────── */
+#scroll-bar{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:var(--accent);z-index:9001;pointer-events:none;
+  transition:width .08s linear;
+}
+
+/* ──────────────────────── LOADER ────────────────────────────── */
+#loader{
+  position:fixed;inset:0;z-index:9500;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:18px;
+  transition:opacity .5s ease,visibility .5s ease;
+}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loader-logo{
+  width:72px;height:72px;display:flex;align-items:center;justify-content:center;
+  background-position:center;
+  background-size:contain;
+  background-repeat:no-repeat;
+  animation:ld-in .6s cubic-bezier(.23,1,.32,1) both;
+}
+[data-theme="dark"] .loader-logo{background-image:url("assets/sitelogo_darkmode.svg")}
+[data-theme="light"] .loader-logo{background-image:url("assets/sitelogo_lightmode.svg")}
+.loader-bar{
+  width:160px;height:1px;background:var(--border);overflow:hidden;
+}
+.loader-bar-fill{
+  height:100%;background:var(--accent);
+  animation:ld-bar 1.1s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes ld-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes ld-bar{from{width:0}to{width:100%}}
+
+/* ──────────────────────── MARQUEE TICKER ────────────────────── */
+.marquee-wrap{
+  overflow:hidden;border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:10px 0;background:var(--surface);
+}
+.marquee-track{
+  display:flex;gap:0;
+  animation:marquee 28s linear infinite;
+  white-space:nowrap;
+}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{
+  font-family:var(--fd);font-size:15px;letter-spacing:.12em;
+  color:var(--text-muted);padding:0 28px;
+  display:flex;align-items:center;gap:28px;
+}
+.marquee-item .dot{color:var(--accent);font-size:8px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ──────────────────────── STRIPE BARS ──────────────────────── */
+.stripe-bar{display:flex;height:6px;width:100%;flex-shrink:0}
+.stripe-bar>span{flex:1;display:block}
+.sb-top>span:nth-child(1){background:var(--s1)}
+.sb-top>span:nth-child(2){background:var(--s2)}
+.sb-top>span:nth-child(3){background:var(--s3)}
+.sb-top>span:nth-child(4){background:var(--s4)}
+.sb-top>span:nth-child(5){background:var(--s5)}
+.sb-bot>span:nth-child(1){background:var(--s5)}
+.sb-bot>span:nth-child(2){background:var(--s4)}
+.sb-bot>span:nth-child(3){background:var(--s3)}
+.sb-bot>span:nth-child(4){background:var(--s2)}
+.sb-bot>span:nth-child(5){background:var(--s1)}
+
+/* ──────────────────────── SVG STRIPE DIVIDERS ──────────────── */
+.sdiv{display:block;width:100%;height:52px;overflow:hidden;flex-shrink:0}
+.sdiv-sm{display:block;width:100%;height:28px;overflow:visible;flex-shrink:0}
+
+/* ──────────────────────── DIRTY FRAME ──────────────────────── */
+.df{position:relative}
+.df::before,.df::after{
+  content:'';position:absolute;inset:0;
+  border:1px solid var(--text);pointer-events:none;z-index:2
+}
+.df::before{opacity:.18;transform:rotate(.4deg) translate(2px,-1px)}
+.df::after{opacity:.07;transform:rotate(-.25deg) translate(-1px,2px)}
+
+/* ──────────────────────── NAV ───────────────────────────────── */
+.nav{
+  position:fixed;top:0;left:0;right:0;height:var(--nav-h);
+  z-index:500;display:flex;align-items:center;
+  padding:0 var(--pad);justify-content:space-between;
+  background:var(--bg);border-bottom:1px solid var(--border);
+  transition:background var(--t),border-color var(--t);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LOGO — Swap the content inside .nav-logo-icon with your own
+   SVG, <img src="logo.svg">, or just text initials
+   ══════════════════════════════════════════════════════════════ */
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:default;user-select:none}
+.nav-logo-icon{
+  width:33px;height:33px;
+  border-radius:3px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;transition:background var(--t),color var(--t);flex-shrink:0;
+  background-position:center;
+  background-size:contain;
+  background-repeat:no-repeat;
+}
+[data-theme="dark"] .nav-logo-icon{background-image:url("assets/sitelogo_darkmode.svg")}
+[data-theme="light"] .nav-logo-icon{background-image:url("assets/sitelogo_lightmode.svg")}
+.logo-init{font-family:var(--fd);font-size:15px;letter-spacing:.05em;line-height:1}
+.nav-logo-name{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:16px;letter-spacing:.14em;
+  text-transform:uppercase;transition:color var(--t);
+}
+.nav-links{
+  display:flex;align-items:center;gap:2px;
+  position:absolute;left:50%;transform:translateX(-50%);
+}
+.nav-link{
+  font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;
+  padding:7px 12px;border-radius:2px;color:var(--text-muted);
+  cursor:default;transition:color var(--t),background var(--t);
+  white-space:nowrap;user-select:none;border:1px solid transparent;
+}
+.nav-link:hover{color:var(--text);background:var(--surface)}
+.nav-link.active{color:var(--accent);border-color:var(--border);background:var(--surface)}
+.nav-controls{display:flex;align-items:center;gap:5px}
+.lang-switch{
+  appearance:none;-webkit-appearance:none;-moz-appearance:none;
+  min-width:62px;padding:5px 28px 5px 10px;
+  border:1px solid var(--border);border-radius:2px;
+  background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 7l5 6 5-6'/%3E%3C/svg%3E") no-repeat right 8px center / 10px 10px;
+  color:var(--text);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  cursor:default;transition:all var(--t);
+}
+.lang-switch:hover{background-color:var(--surface-2)}
+.nav-btn{
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  padding:5px 10px;border-radius:2px;background:var(--surface);
+  border:1px solid var(--border);color:var(--text-muted);
+  cursor:default;transition:all var(--t);
+}
+.nav-btn:hover{background:var(--surface-2);color:var(--text)}
+.nav-btn.on{color:var(--accent);border-color:var(--accent);background:transparent}
+#theme-btn{font-size:14px;padding:4px 9px}
+
+/* ──────────────────────── MOBILE MENU ──────────────────────── */
+.mob-toggle{
+  display:none;width:33px;height:33px;border:1px solid var(--border);
+  border-radius:2px;cursor:default;flex-direction:column;gap:5px;
+  align-items:center;justify-content:center;background:transparent;
+}
+.mob-toggle span{display:block;width:15px;height:1px;background:var(--text);transition:all .25s}
+.mob-drawer{
+  position:fixed;top:var(--nav-h);left:0;right:0;background:var(--bg);
+  border-bottom:1px solid var(--border);z-index:490;
+  padding:10px var(--pad) 20px;
+  display:flex;flex-direction:column;gap:2px;
+  transform:translateY(-110%);transition:transform .28s cubic-bezier(.4,0,.2,1);
+}
+.mob-drawer.open{transform:translateY(0)}
+.dl{
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  padding:12px 4px;border-bottom:1px solid var(--border);
+  color:var(--text-muted);cursor:default;transition:color var(--t);
+}
+.dl:hover,.dl.active{color:var(--accent)}
+.mob-ctrl{display:flex;gap:7px;padding-top:14px}
+
+/* ──────────────────────── PAGE SHELL ───────────────────────── */
+.page{display:none;padding-top:var(--nav-h);min-height:100vh;flex-direction:column;contain:layout style}
+.page.active{display:flex;animation:pg-in .32s ease both}
+@keyframes pg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.proj-card{contain:layout style;}
+
+/* ──────────────────────── SECTION HEADER ───────────────────── */
+.sec-hdr{
+  padding:clamp(38px,6vw,78px) var(--pad) clamp(24px,3.5vw,44px);
+  max-width:var(--mw);width:100%;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:40px;
+}
+.sec-num{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.sec-title{
+  font-family:var(--fd);font-size:clamp(50px,8vw,100px);
+  line-height:.87;text-transform:uppercase;letter-spacing:.02em;
+}
+.sec-desc{font-size:12px;line-height:1.82;color:var(--text-muted);max-width:340px;align-self:end}
+
+/* ──────────────────────── FOOTER ───────────────────────────── */
+.footer{
+  margin-top:auto;border-top:1px solid var(--border);
+  padding:22px var(--pad);display:flex;align-items:center;
+  justify-content:space-between;font-size:9px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);
+}
+.footer-logo{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;
+  background-position:center;
+  background-size:contain;
+  background-repeat:no-repeat;
+  color:transparent;text-indent:-9999px;overflow:hidden;
+}
+[data-theme="dark"] .footer-logo{background-image:url("assets/sitelogo_darkmode.svg")}
+[data-theme="light"] .footer-logo{background-image:url("assets/sitelogo_lightmode.svg")}
+
+/* ──────────────────────── FADE UP ──────────────────────────── */
+.fu{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.fu.in{opacity:1;transform:none}
+.fu-d1{transition-delay:.08s}.fu-d2{transition-delay:.16s}
+.fu-d3{transition-delay:.24s}.fu-d4{transition-delay:.32s}
+
+/* ════════════════════════════════════════════════════════════════
+   PAGE: ABOUT / HERO
+   ════════════════════════════════════════════════════════════════ */
+.hero{
+  position:relative;overflow:visible;
+  padding:clamp(32px,5vw,72px) var(--pad) 0;
+  display:grid;grid-template-columns:1fr auto;
+  align-items:center;gap:0;min-height:clamp(380px,62vh,660px);
+  max-width:1440px;width:100%;margin:0 auto;
+}
+.hero-left{position:relative;z-index:2}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:12px;margin-bottom:22px;
+}
+.hero-eyebrow::before{
+  content:'';display:block;width:26px;height:1px;
+  background:var(--accent);flex-shrink:0;
+}
+.hero-ey-txt{
+  font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--text-muted);
+}
+/* ══════════════════════════════════════════════════════════════
+   HERO NAME — Edit the three <span> elements in the HTML
+   ══════════════════════════════════════════════════════════════ */
+.hero-name{
+  font-family:var(--fd);font-size:clamp(80px,14.5vw,192px);
+  line-height:.84;text-transform:uppercase;letter-spacing:.01em;
+  color:var(--text);
+}
+.hero-name .ha{color:var(--accent)}
+.hero-graphic-wrap{
+  position:relative;align-self:center;
+  width:clamp(400px,54vw,740px);flex-shrink:0;
+  margin-bottom:0;margin-right:calc(var(--pad) * -1);
+}
+.hero-graphic-wrap svg{
+  width:100%;height:auto;display:block;overflow:visible;
+}
+/* Smooth colour transitions inside SVG — only the bg-fill circle needs this */
+#sun-day,#sun-night-solid,#sun-night-stroke,
+#earth-stroke-idle,#earth-stroke-active{
+  transition:fill .22s ease,stroke .22s ease;
+}
+
+/* Hero bottom row */
+.hero-bottom{
+  padding:28px var(--pad) 0;max-width:var(--mw);width:100%;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;
+}
+.hero-bio{font-size:12px;line-height:1.85;color:var(--text-muted);max-width:400px}
+.hero-meta{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.hero-stat{
+  display:flex;align-items:baseline;gap:8px;
+  font-family:var(--fd);font-size:28px;letter-spacing:.05em;
+}
+.hero-stat-label{font-family:var(--fb);font-size:9px;letter-spacing:.18em;color:var(--text-muted)}
+.hero-socials{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px}
+.hs{
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  padding:7px 12px;border:1px solid var(--border);
+  color:var(--text-muted);transition:all var(--t);display:flex;align-items:center;gap:6px;
+}
+.hs:hover{border-color:var(--accent);color:var(--accent)}
+.hs-arr{opacity:.5;font-size:10px}
+
+/* Tags */
+.about-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:24px}
+.atag{
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--border);color:var(--text-muted);transition:all var(--t);
+}
+.atag:hover{border-color:var(--accent);color:var(--accent)}
+
+/* "Now" section */
+.now-section{
+  padding:32px var(--pad) 0;max-width:var(--mw);width:100%;margin:0 auto;
+}
+.now-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:14px}
+.now-card{
+  padding:16px 18px;border:1px solid var(--border);background:var(--surface);
+  display:flex;flex-direction:column;gap:6px;transition:border-color var(--t);
+}
+.now-card:hover{border-color:var(--accent)}
+.now-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.now-value{font-size:12px;line-height:1.5;color:var(--text-muted)}
+
+/* ════════════════════════════════════════════════════════════════
+   PAGE: PROJECTS
+   ════════════════════════════════════════════════════════════════ */
+.proj-grid{
+  padding:0 var(--pad) clamp(40px,6vw,80px);
+  max-width:var(--mw);width:100%;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px;
+}
+/* Overlay-reveal style card */
+.proj-card{
+  position:relative;overflow:hidden;cursor:default;
+  border:1px solid var(--border);transition:border-color var(--t);
+}
+.proj-card:hover{border-color:var(--accent)}
+.proj-img-wrap{position:relative;aspect-ratio:16/10;overflow:hidden}
+.proj-img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:grayscale(22%) contrast(1.06);
+  transition:filter .5s ease,transform .5s ease;
+}
+.proj-card:hover .proj-img{filter:grayscale(0%) contrast(1);transform:scale(1.04)}
+.proj-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 30%,rgba(12,11,8,.85) 100%);
+  opacity:0;transition:opacity .3s ease;
+  pointer-events:none;
+}
+.proj-card:hover .proj-overlay{opacity:1}
+.proj-overlay-tag,.proj-overlay-title{display:none;}
+.proj-info{padding:16px 18px 20px;background:var(--surface)}
+.proj-tag{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+.proj-title{
+  font-family:var(--fd);font-size:26px;letter-spacing:.04em;
+  text-transform:uppercase;line-height:1;margin-bottom:8px;
+}
+.proj-desc{font-size:11px;line-height:1.7;color:var(--text-muted)}
+.proj-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--border);
+}
+.proj-link{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);display:flex;align-items:center;gap:6px;
+  transition:gap var(--t);
+}
+.proj-link:hover{gap:11px}
+.proj-year{font-size:9px;letter-spacing:.12em;color:var(--text-faint)}
+
+/* ════════════════════════════════════════════════════════════════
+   PAGE: PHOTOGRAPHY
+   ════════════════════════════════════════════════════════════════ */
+.series{padding-bottom:44px}
+.series-hdr{
+  padding:0 var(--pad) 16px;max-width:var(--mw);width:100%;margin:0 auto;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+}
+.series-meta{display:flex;flex-direction:column;gap:4px}
+.sc-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
+.series-name{
+  font-family:var(--fd);font-size:clamp(30px,4.5vw,50px);
+  letter-spacing:.04em;text-transform:uppercase;line-height:1;
+}
+.series-more{
+  flex-shrink:0;font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  padding:9px 16px;border:1px solid var(--border);background:transparent;
+  color:var(--text-muted);transition:all var(--t);white-space:nowrap;cursor:default;
+}
+a.series-more{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.series-more:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Horizontal strip */
+.strip{
+  display:flex;gap:2px;overflow-x:auto;overflow-y:hidden;
+  padding:0 var(--pad);scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;cursor:default;user-select:none;
+}
+.strip:active{cursor:default}
+.strip::-webkit-scrollbar{display:none}
+.sphoto{
+  flex-shrink:0;height:300px;object-fit:cover;display:block;
+  filter:grayscale(14%) contrast(1.04);
+  transition:filter .35s,transform .35s;cursor:default;
+}
+.strip:not(.grabbing) .sphoto{cursor:default}
+.sphoto:hover{
+  filter:grayscale(0%);
+  transform:scale(1.02);
+}
+/* Inline series separator */
+.ssep{display:block;width:100%;height:26px;overflow:visible;flex-shrink:0}
+
+/* ════════════════════════════════════════════════════════════════
+   PAGE: AVIATION
+   ════════════════════════════════════════════════════════════════ */
+.avia-stats{
+  padding:0 var(--pad) 44px;max-width:var(--mw);width:100%;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:18px;
+}
+.stat{
+  padding:22px 20px 18px;border:1px solid var(--border);background:var(--surface);
+  position:relative;overflow:hidden;transition:border-color var(--t);
+}
+.stat:hover{border-color:var(--accent)}
+.stat::before{
+  content:'';position:absolute;top:0;left:0;width:2px;height:100%;
+  background:var(--accent);opacity:0;transition:opacity var(--t);
+}
+.stat:hover::before{opacity:1}
+.stat-val{
+  font-family:var(--fd);font-size:54px;line-height:1;
+  letter-spacing:.02em;color:var(--text);
+}
+.stat-unit{font-size:24px;color:var(--accent)}
+.stat-lbl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-top:5px}
+
+.ac-grid{
+  padding:0 var(--pad) clamp(32px,5vw,64px);max-width:var(--mw);width:100%;margin:0 auto;
+}
+.ac-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px}
+.ac-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:14px}
+.ac-card{
+  padding:18px;border:1px solid var(--border);background:var(--surface);
+  transition:border-color var(--t);
+}
+.ac-card:hover{border-color:var(--accent)}
+.ac-ident{font-family:var(--fd);font-size:34px;letter-spacing:.05em;text-transform:uppercase;line-height:1}
+.ac-name{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-top:5px}
+
+.gall-label{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--text-muted);padding:0 var(--pad);
+  max-width:var(--mw);width:100%;margin:0 auto 14px;
+}
+
+/* Route SVG strip */
+.route-vis{
+  padding:0 var(--pad) 40px;max-width:var(--mw);width:100%;margin:0 auto;
+}
+.route-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px}
+.route-svg{width:100%;height:100px;border:1px solid var(--border);background:var(--surface);display:block;border-radius:1px}
+
+/* ════════════════════════════════════════════════════════════════
+   PAGE: CONTACT
+   ════════════════════════════════════════════════════════════════ */
+.contact-grid{
+  padding:0 var(--pad) clamp(40px,6vw,80px);max-width:var(--mw);
+  width:100%;margin:0 auto;
+  display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,80px);
+}
+.cform{display:flex;flex-direction:column;gap:18px}
+.ff{display:flex;flex-direction:column;gap:7px}
+.fl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted)}
+.fi,.fta{
+  background:var(--surface);border:1px solid var(--border);padding:12px 14px;
+  font-family:var(--fb);font-size:12px;color:var(--text);outline:none;
+  border-radius:1px;-webkit-appearance:none;transition:border-color var(--t),background var(--t);
+}
+.fi:focus,.fta:focus{border-color:var(--accent);background:var(--surface-2)}
+.fi::placeholder,.fta::placeholder{color:var(--text-faint)}
+.fta{resize:vertical;min-height:140px}
+.sbtn{
+  font-family:var(--fd);font-size:20px;letter-spacing:.12em;text-transform:uppercase;
+  padding:15px 32px;background:var(--text);color:var(--bg);border:none;cursor:default;
+  transition:background var(--t),color var(--t);align-self:flex-start;
+}
+.sbtn:hover{background:var(--accent);color:#fff}
+
+.ci-block{margin-bottom:28px}
+.ci-lbl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:9px}
+.ci-val{
+  font-family:var(--fd);font-size:clamp(20px,2.8vw,28px);
+  letter-spacing:.04em;text-transform:uppercase;transition:color var(--t);display:block;
+}
+.ci-val:hover{color:var(--accent)}
+.srow{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--border);
+  font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text-muted);transition:color var(--t);cursor:default;
+}
+.srow:hover{color:var(--accent)}
+
+/* ════════════════════════════════════════════════════════════════
+   PHOTO MODAL / LIGHTBOX
+   ════════════════════════════════════════════════════════════════ */
+.modal{
+  position:fixed;inset:0;z-index:800;background:var(--bg);
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.modal.open{opacity:1;pointer-events:all}
+.modal-hdr{
+  position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);
+  padding:14px var(--pad);display:flex;align-items:center;justify-content:space-between;z-index:10;
+}
+.modal-title{font-family:var(--fd);font-size:34px;letter-spacing:.05em;text-transform:uppercase}
+.modal-close-btn{
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  padding:8px 16px;border:1px solid var(--border);background:transparent;
+  color:var(--text-muted);cursor:default;transition:all var(--t);
+}
+.modal-close-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-grid{
+  padding:24px var(--pad) 56px;max-width:var(--mw);width:100%;margin:0 auto;
+  columns:3 220px;gap:5px;
+}
+.modal-grid img{
+  width:100%;height:auto;display:block;margin-bottom:5px;
+  object-fit:contain;filter:grayscale(12%);transition:filter .3s;cursor:default;
+}
+.modal-grid img:hover{filter:grayscale(0%)}
+
+/* Individual photo lightbox */
+.lb{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(12,11,8,.95);
+  display:none;align-items:center;justify-content:center;
+}
+.lb.open{display:flex}
+.lb-img{max-width:92vw;max-height:90vh;object-fit:contain;display:block}
+.lb-close{
+  position:absolute;top:16px;right:20px;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  padding:8px 16px;border:1px solid rgba(255,255,255,.2);
+  background:transparent;color:rgba(255,255,255,.7);cursor:default;
+  transition:all var(--t);
+}
+.lb-close:hover{border-color:#fff;color:#fff}
+.lb-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  font-family:var(--fd);font-size:24px;
+  background:transparent;border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.6);padding:10px 16px;cursor:default;transition:all var(--t);
+}
+.lb-nav:hover{border-color:#fff;color:#fff}
+.lb-prev{left:16px}.lb-next{right:16px}
+.lb-counter{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PAGE: PROJECT DETAIL  — product-gallery layout
+   ════════════════════════════════════════════════════════════════ */
+.pd-nav{
+  padding:18px var(--pad);max-width:var(--mw);width:100%;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.pd-back{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  padding:8px 16px;border:1px solid var(--border);background:transparent;
+  color:var(--text-muted);cursor:default;transition:all var(--t);
+  display:flex;align-items:center;gap:8px;
+}
+.pd-back:hover{border-color:var(--accent);color:var(--accent)}
+.pd-nav-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint)}
+
+/* ── two-column product layout ── */
+.pd-pg-wrap{
+  padding:0 var(--pad) clamp(40px,6vw,80px);
+  max-width:var(--mw);width:100%;margin:0 auto;
+  display:grid;grid-template-columns:1.15fr 0.85fr;
+  gap:clamp(24px,4vw,52px);align-items:start;
+}
+
+/* ── LEFT: image viewer ── */
+.pd-viewer{display:flex;flex-direction:column;gap:6px}
+
+.pd-main-wrap{
+  position:relative;overflow:hidden;
+  aspect-ratio:4/3;
+  max-height:clamp(300px,52vh,560px); /* prevent tall/portrait images from breaking the grid */
+  border:1px solid var(--border);
+  background:var(--surface);
+}
+/* dirty-frame double-border on the main image */
+.pd-main-wrap::before,.pd-main-wrap::after{
+  content:'';position:absolute;inset:0;
+  border:1px solid var(--text);pointer-events:none;z-index:2;
+}
+.pd-main-wrap::before{opacity:.15;transform:rotate(.3deg) translate(2px,-1px)}
+.pd-main-wrap::after{opacity:.06;transform:rotate(-.2deg) translate(-1px,2px)}
+
+.pd-main-img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:grayscale(10%) contrast(1.05);
+  transition:filter .35s ease, transform .35s ease, opacity .16s ease;
+  cursor:zoom-in;
+}
+.pd-main-img:hover{filter:grayscale(0%) contrast(1);transform:scale(1.015)}
+
+/* image counter badge */
+.pd-img-counter{
+  position:absolute;bottom:10px;right:12px;z-index:3;
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);background:rgba(0,0,0,.42);
+  padding:3px 8px;pointer-events:none;
+  transition:opacity var(--t);
+}
+
+/* ── thumbnail grid (max 6 columns, wraps downward) ── */
+.pd-thumbs{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:5px;
+}
+
+.pd-thumb{
+  width:100%;height:56px;
+  object-fit:cover;display:block;
+  border:1px solid var(--border);
+  opacity:.48;filter:grayscale(22%);
+  cursor:default;
+  transition:opacity .2s,border-color .2s,filter .2s;
+}
+.pd-thumb:hover{opacity:.78;filter:grayscale(0%)}
+.pd-thumb.active{
+  opacity:1;border-color:var(--accent);
+  filter:grayscale(0%);
+  box-shadow:0 0 0 1px var(--accent);
+}
+
+/* ── "+N more" overflow tile — occupies the last cell in row 1 ── */
+.pd-thumb-more{
+  width:100%;height:56px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  background:var(--surface-2);border:1px solid var(--border);
+  cursor:default;transition:background var(--t),border-color var(--t);
+}
+.pd-thumb-more:hover{background:var(--surface);border-color:var(--accent)}
+.pd-thumb-more strong{
+  font-family:var(--fd);font-size:19px;letter-spacing:.02em;
+  color:var(--text);line-height:1;
+}
+.pd-thumb-more span{
+  font-size:8px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-muted);line-height:1;
+}
+
+/* ── RIGHT: info column ── */
+.pd-info{display:flex;flex-direction:column}
+.pd-tag{
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;
+}
+.pd-title{
+  font-family:var(--fd);font-size:clamp(38px,5.5vw,76px);
+  line-height:.88;text-transform:uppercase;letter-spacing:.02em;margin-bottom:22px;
+}
+/* ── long description — plain fallback + markdown-rendered ── */
+.pd-long-desc{
+  font-size:13px;line-height:1.82;color:var(--text-muted);margin-bottom:28px;
+  /* white-space:pre-wrap only applies when markdown hasn't been rendered */
+}
+.pd-long-desc.plain{white-space:pre-wrap}
+
+/* Loading state */
+.pd-md-loading{
+  display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text-faint);padding:12px 0;
+}
+
+/* ── Markdown-rendered element styles ──────────────────────────
+   All scoped under .pd-long-desc so they can't bleed into the rest
+   of the page. Follows the site's IBM Plex Mono + Bebas Neue system.
+   ─────────────────────────────────────────────────────────────── */
+.pd-long-desc h1,.pd-long-desc h2,.pd-long-desc h3,
+.pd-long-desc h4,.pd-long-desc h5,.pd-long-desc h6{
+  font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;
+  color:var(--text);margin:24px 0 8px;line-height:.95;
+}
+.pd-long-desc h1{font-size:clamp(28px,4vw,42px)}
+.pd-long-desc h2{font-size:clamp(22px,3vw,32px)}
+.pd-long-desc h3{font-size:clamp(17px,2.4vw,24px)}
+.pd-long-desc h4,.pd-long-desc h5,.pd-long-desc h6{
+  font-size:14px;letter-spacing:.1em}
+
+.pd-long-desc p{
+  font-size:13px;line-height:1.82;color:var(--text-muted);
+  margin-bottom:14px;
+}
+.pd-long-desc strong{color:var(--text);font-weight:500}
+.pd-long-desc em{font-style:italic;color:var(--text-muted)}
+
+.pd-long-desc ul,.pd-long-desc ol{
+  padding-left:20px;margin-bottom:14px;
+  font-size:13px;line-height:1.75;color:var(--text-muted);
+}
+.pd-long-desc li{margin-bottom:4px}
+.pd-long-desc li>ul,.pd-long-desc li>ol{margin-top:4px;margin-bottom:4px}
+
+.pd-long-desc a{
+  color:var(--accent);
+  text-underline-offset:3px;text-decoration:underline;
+  text-decoration-color:var(--border);transition:text-decoration-color var(--t);
+}
+.pd-long-desc a:hover{text-decoration-color:var(--accent)}
+
+.pd-long-desc code{
+  font-family:var(--fb);font-size:11px;
+  background:var(--surface-2);color:var(--text);
+  padding:2px 6px;border:1px solid var(--border);border-radius:1px;
+}
+.pd-long-desc pre{
+  background:var(--surface);border:1px solid var(--border);
+  padding:16px 18px;overflow-x:auto;margin-bottom:16px;border-radius:1px;
+}
+.pd-long-desc pre code{
+  background:none;border:none;padding:0;
+  font-size:11px;color:var(--text-muted);
+}
+
+.pd-long-desc blockquote{
+  border-left:2px solid var(--accent);
+  padding:4px 0 4px 16px;margin:16px 0;
+  color:var(--text-muted);font-style:italic;
+}
+.pd-long-desc blockquote p{margin-bottom:0}
+
+.pd-long-desc hr{
+  border:none;border-top:1px solid var(--border);
+  margin:24px 0;
+}
+
+.pd-long-desc table{
+  width:100%;border-collapse:collapse;
+  font-size:12px;margin-bottom:16px;
+}
+.pd-long-desc th{
+  font-family:var(--fb);font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-muted);padding:8px 12px;
+  border-bottom:1px solid var(--border);text-align:left;
+}
+.pd-long-desc td{
+  padding:8px 12px;border-bottom:1px solid var(--border-2,var(--border));
+  color:var(--text-muted);vertical-align:top;
+}
+.pd-long-desc tr:last-child td{border-bottom:none}
+
+.pd-long-desc img{
+  max-width:100%;max-height:480px;height:auto;display:block;
+  object-fit:contain;
+  margin:16px auto;border:1px solid var(--border);
+}
+.pd-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--fd);font-size:20px;letter-spacing:.1em;text-transform:uppercase;
+  padding:15px 32px;background:var(--text);color:var(--bg);
+  border:none;cursor:default;transition:background var(--t),color var(--t);
+}
+.pd-cta:hover{background:var(--accent);color:#fff}
+.pd-cta-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:10px;width:fit-content;}
+.pd-readme-link{
+  display:inline-flex;align-items:center;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-muted);text-decoration:underline;text-decoration-color:var(--border);
+  opacity:.88;transition:color var(--t),opacity var(--t);
+}
+.pd-readme-link:hover{color:var(--text);opacity:1}
+
+.pd-meta{margin-top:28px;border-top:1px solid var(--border);padding-top:20px}
+.pd-meta-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:11px 0;border-bottom:1px solid var(--border);
+  font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);
+}
+.pd-meta-val{color:var(--text);font-size:10px}
+
+/* ── short summary line in right col (replaces the removed long-desc) ── */
+.pd-short-desc{
+  font-size:12px;line-height:1.8;color:var(--text-muted);
+  margin-bottom:24px;white-space:pre-wrap;
+}
+
+/* ── full-width description below the two-col top ── */
+.pd-desc-section{
+  padding:clamp(28px,4vw,52px) var(--pad) clamp(20px,3vw,36px);
+  max-width:var(--mw);width:100%;margin:0 auto;
+  border-top:1px solid var(--border);
+}
+.pd-desc-label{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:20px;
+  padding-bottom:12px;border-bottom:1px solid var(--border);
+}
+/* pd-long-desc styles already defined above — they scope under this section too */
+
+/* ── image nav arrows on main viewer ── */
+.pd-main-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:4;
+  font-family:var(--fd);font-size:22px;
+  background:rgba(0,0,0,.38);border:1px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.75);padding:10px 15px;cursor:default;
+  transition:background var(--t),border-color var(--t),color var(--t);
+  line-height:1;user-select:none;
+}
+.pd-main-nav:hover{background:rgba(0,0,0,.62);border-color:rgba(255,255,255,.55);color:#fff}
+.pd-main-prev{left:10px}
+.pd-main-next{right:10px}
+.pd-main-nav[hidden]{display:none}
+
+/* ── responsive ── */
+@media(max-width:780px){
+  .pd-pg-wrap{grid-template-columns:1fr}
+  .pd-main-wrap{aspect-ratio:3/2}
+}
+@media(max-width:480px){
+  .pd-thumb,.pd-thumb-more{height:42px}
+  .pd-thumb-more strong{font-size:15px}
+}
+@media(max-width:860px){
+  .nav-links{display:none}
+  .mob-toggle{display:flex}
+  .sec-hdr{grid-template-columns:1fr}
+  .sec-desc{max-width:100%}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-graphic-wrap{width:clamp(200px,60vw,340px);margin:0 auto}
+  .hero-bottom{grid-template-columns:1fr}
+  .hero-meta{align-items:flex-start}
+  .contact-grid{grid-template-columns:1fr}
+  .modal-grid{columns:2 160px}
+}
+@media(max-width:540px){
+  .hero-name{font-size:clamp(62px,18vw,110px)}
+  .sphoto{height:220px}
+  .avia-stats{grid-template-columns:1fr 1fr}
+  .modal-grid{columns:1 1fr}
+  .now-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ── SCROLL PROGRESS ────────────────────────────── -->
+<div id="scroll-bar"></div>
+
+<!-- ── GRAIN ──────────────────────────────────────── -->
+<div id="grain" aria-hidden="true"></div>
+
+<!-- ── LOADER ─────────────────────────────────────── -->
+<div id="loader" aria-hidden="true">
+  <!-- Theme-aware logo image for loader -->
+  <div class="loader-logo" aria-label="TK Logo"></div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- ── MOBILE DRAWER ──────────────────────────────── -->
+<div class="mob-drawer" id="mob-drawer">
+  <div class="dl active" onclick="go('about')"       data-page="about"       data-i18n="nav.about">About</div>
+  <div class="dl"        onclick="go('projects')"    data-page="projects"    data-i18n="nav.projects">Projects</div>
+  <div class="dl"        onclick="go('photography')" data-page="photography" data-i18n="nav.photography">Photography</div>
+  <div class="dl"        onclick="go('contact')"     data-page="contact"     data-i18n="nav.contact">Contact</div>
+  <div class="mob-ctrl">
+    <select class="lang-switch" id="m-lang" onchange="setLang(this.value, true)" aria-label="Language">
+      <option value="cs">CZ</option>
+    </select>
+    <button class="nav-btn" id="m-th" onclick="toggleTheme()" style="font-size:13px">◑</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     NAV
+     ════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-logo" onclick="go('about')">
+    <!-- ══════════════════════════════════════════════════════════
+         LOGO ICON — Replace the inner content with your own SVG
+         or <img src="your-logo.svg" alt="Logo">
+         ══════════════════════════════════════════════════════════ -->
+    <div class="nav-logo-icon" aria-label="TK Logo"></div>
+    <span class="nav-logo-name"></span>
+  </div>
+
+  <div class="nav-links">
+    <span class="nav-link active" onclick="go('about')"       data-page="about"       data-i18n="nav.about">About</span>
+    <span class="nav-link"        onclick="go('projects')"    data-page="projects"    data-i18n="nav.projects">Projects</span>
+    <span class="nav-link"        onclick="go('photography')" data-page="photography" data-i18n="nav.photography">Photography</span>
+    <span class="nav-link"        onclick="go('contact')"     data-page="contact"     data-i18n="nav.contact">Contact</span>
+  </div>
+
+  <div class="nav-controls">
+    <select class="lang-switch" id="lang-switch" onchange="setLang(this.value, true)" aria-label="Language">
+      <option value="cs">CZ</option>
+    </select>
+    <button class="nav-btn" id="theme-btn" onclick="toggleTheme()">◑</button>
+    <button class="mob-toggle" id="mob-tog" onclick="toggleMob()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: ABOUT
+     ════════════════════════════════════════════════════════════ -->
+<div class="page active" id="page-about">
+  <div class="stripe-bar sb-top" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- HERO -->
+  <div class="hero fu">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="hero-ey-txt" data-i18n="about.eyebrow">Pilot · Photographer</span>
+      </div>
+      <!-- ════════════════════════════════════════════
+           HERO NAME — Change the three spans below
+           ════════════════════════════════════════════ -->
+      <div class="hero-name">
+        <span data-i18n="hero.l1">First</span><br>
+        <span class="ha" data-i18n="hero.l2">Last</span><br>
+        <span data-i18n="hero.l3">Name.</span>
+      </div>
+    </div>
+    <!-- ════════════════════════════════════════════
+         SOLAR CLOCK GRAPHIC — hover to reveal clock
+         ════════════════════════════════════════════ -->
+    <div class="hero-graphic-wrap">
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <mask id="mask-earth">
+            <circle cx="300" cy="200" r="120" fill="white"/>
+          </mask>
+          <mask id="mask-space">
+            <rect x="0" y="0" width="600" height="400" fill="white"/>
+            <circle cx="300" cy="200" r="120" fill="black"/>
+          </mask>
+          <mask id="mask-inner-orbit">
+            <rect x="0" y="0" width="600" height="400" fill="black"/>
+            <circle cx="300" cy="200" r="60" fill="none" stroke="white" stroke-width="12"
+              transform="rotate(-90 300 200)" id="inner-orbit-mask-circle"
+              stroke-dasharray="376.9911" stroke-dashoffset="376.9911"/>
+          </mask>
+          <filter id="clock-shadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="6" stdDeviation="6"
+              flood-color="#000000" flood-opacity="0" id="fe-shadow"/>
+          </filter>
+        </defs>
+
+        <!-- Earth / sun group rotated 180° so day arc runs left → right.
+             pointer-events="none" — all drawing elements are inert to the mouse;
+             only the hover-trigger circle (last in Z-order) receives events. -->
+        <g id="asset-main" transform="rotate(180 300 200)" pointer-events="none">
+          <circle cx="300" cy="200" r="120" fill="var(--bg-color)"/>
+          <circle id="earth-stroke-idle" cx="300" cy="200" r="120"
+            fill="none" stroke="var(--stroke-color)" stroke-width="2"/>
+
+          <g mask="url(#mask-earth)">
+            <circle id="sun-night-stroke" cx="300" cy="200" r="47"
+              fill="none" stroke="var(--sun-color)" stroke-width="2"/>
+          </g>
+          <g mask="url(#mask-space)">
+            <circle id="sun-night-solid" cx="300" cy="200" r="47" fill="var(--sun-color)"/>
+          </g>
+          <circle id="sun-day" cx="300" cy="200" r="47" fill="var(--sun-color)" style="display:none"/>
+        </g>
+
+        <!-- Clock layer stays unrotated so hands read correctly.
+             pointer-events="none" — must never steal events from hover-trigger. -->
+        <g id="clock-layer" filter="url(#clock-shadow)" pointer-events="none">
+          <circle id="inner-orbit" cx="300" cy="200" r="60"
+            fill="none" stroke="var(--stroke-color)" stroke-width="1"
+            stroke-dasharray="2,3" class="clock-element"
+            mask="url(#mask-inner-orbit)" style="opacity:0"/>
+          <path id="circumference-arc" fill="none"
+            stroke="var(--stroke-color)" stroke-width="6" stroke-linecap="round"
+            class="clock-element" style="opacity:0"/>
+          <line id="hour-hand" x1="300" y1="200" x2="300" y2="140"
+            stroke="var(--stroke-color)" stroke-width="6" stroke-linecap="round"
+            class="clock-element" style="opacity:0"/>
+          <line id="minute-hand" x1="300" y1="140" x2="300" y2="80"
+            stroke="var(--stroke-color)" stroke-width="6" stroke-linecap="round"
+            class="clock-element" style="opacity:0"/>
+          <circle id="earth-stroke-active" cx="300" cy="200" r="120"
+            fill="none" stroke="var(--stroke-color)" stroke-width="2" style="opacity:0"/>
+          <line id="drop-line" x1="300" y1="80" x2="300" y2="80"
+            stroke="var(--stroke-color)" stroke-width="6" stroke-linecap="round"
+            class="clock-element" style="opacity:0"/>
+        </g>
+
+        <!-- Hover trigger: MUST be last in the SVG (highest Z-order) so it's
+             always on top of every drawing element.
+             fill="rgba(0,0,0,0)" + pointer-events="all" → full disc hit area,
+             even though the fill is invisible. fill="none" would give zero hit area. -->
+        <circle id="hover-trigger" cx="300" cy="200" r="120"
+          fill="rgba(0,0,0,0)" pointer-events="all" style="cursor:none"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Retro stripe divider -->
+  <svg class="sdiv fu fu-d1" viewBox="0 0 1440 52" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,16 C300,16 520,44 1440,44" stroke="#3E2510" stroke-width="2.5" fill="none"/>
+    <path d="M0,22 C300,22 520,50 1440,50" stroke="#B83225" stroke-width="2.5" fill="none"/>
+    <path d="M0,28 C300,28 520,56 1440,56" stroke="#D96B2E" stroke-width="2"   fill="none"/>
+    <path d="M0,33 C300,33 520,61 1440,61" stroke="#E8A838" stroke-width="1.5" fill="none"/>
+    <path d="M0,38 C300,38 520,66 1440,66" stroke="#C9A882" stroke-width="1"   fill="none"/>
+  </svg>
+
+  <!-- Bio + meta row -->
+  <div class="hero-bottom fu fu-d2">
+    <div>
+      <!-- ════════════════════════════════════════════
+           BIO — Edit these paragraphs
+           ════════════════════════════════════════════ -->
+      <p class="hero-bio" data-i18n="about.bio1">
+        I'm a photographer, and private pilot based in [Your City]. I build things that are either very useful or have absolutely no reason to exist — and I enjoy both equally.
+      </p>
+      <p class="hero-bio" style="margin-top:12px" data-i18n="about.bio2">
+        My work lives at the intersection of creative technology and aviation. Whether writing code, framing a shot, or planning a cross-country flight, I'm drawn to problems that reward patience and precision.
+      </p>
+      <!-- ════════════════════════════════════════════
+           SOCIAL LINKS — Edit href values
+           ════════════════════════════════════════════ -->
+      <div class="hero-socials" style="margin-top:20px">
+        <a class="hs" href="https://instagram.com" target="_blank" rel="noopener"><span>Instagram</span><span class="hs-arr">↗</span></a>
+        <a class="hs" href="https://github.com"    target="_blank" rel="noopener"><span>GitHub</span><span class="hs-arr">↗</span></a>
+        <a class="hs" href="https://linkedin.com"  target="_blank" rel="noopener"><span>LinkedIn</span><span class="hs-arr">↗</span></a>
+        <a class="hs" href="mailto:hello@yourname.com"><span>Email</span><span class="hs-arr">↗</span></a>
+      </div>
+      <!-- ════════════════════════════════════════════
+           SKILL TAGS — Edit as needed
+           ════════════════════════════════════════════ -->
+      <div class="about-tags">
+        <span class="atag" data-i18n="tag.dev">Development</span>
+        <span class="atag" data-i18n="tag.design">Design</span>
+        <span class="atag" data-i18n="tag.avia">Aviation</span>
+        <span class="atag" data-i18n="tag.photo">Photography</span>
+        <span class="atag" data-i18n="tag.ai">AI / ML</span>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <!-- ════════════════════════════════════════════
+           ABOUT STATS — Replace values
+           ════════════════════════════════════════════ -->
+      <div class="hero-stat">
+        <span style="font-size:48px;line-height:1">0+</span>
+        <span class="hero-stat-label" data-i18n="hstat.projects">Projects</span>
+      </div>
+      <div class="hero-stat" style="font-size:32px">
+        <span>0h</span>
+        <span class="hero-stat-label" data-i18n="hstat.air">In the Air</span>
+      </div>
+      <div class="hero-stat" style="font-size:22px">
+        <span data-i18n="hstat.since">Since 20XX</span>
+        <span class="hero-stat-label" data-i18n="hstat.coding">Coding</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARQUEE between bio and now-section -->
+  <div class="marquee-wrap fu fu-d3" style="margin:28px 0 0" aria-hidden="true">
+    <div class="marquee-track" id="marquee-about">
+      <!-- items duplicated in JS for seamless loop -->
+    </div>
+  </div>
+
+  <!-- "NOW" WIDGET — what you're currently working on -->
+  <div class="now-section fu fu-d4">
+    <div class="t-label" style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted)" data-i18n="now.label">— Currently</div>
+    <div class="now-grid">
+      <!-- ════════════════════════════════════════════
+           NOW CARDS — Edit values freely
+           ════════════════════════════════════════════ -->
+      <div class="now-card">
+        <span class="now-label" data-i18n="now.working">Working on</span>
+        <span class="now-value" data-i18n="now.working.val">Your Current Project</span>
+      </div>
+      <div class="now-card">
+        <span class="now-label" data-i18n="now.reading">Reading</span>
+        <span class="now-value" data-i18n="now.reading.val">Book Title — Author</span>
+      </div>
+      <div class="now-card">
+        <span class="now-label" data-i18n="now.listening">Listening</span>
+        <span class="now-value" data-i18n="now.listening.val">Artist / Album</span>
+      </div>
+      <div class="now-card">
+        <span class="now-label" data-i18n="now.flying">Last Flight</span>
+        <span class="now-value" data-i18n="now.flying.val">XXXX → XXXX</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:48px"></div>
+  <div class="stripe-bar sb-bot" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <footer class="footer">
+    <span>© 2026 <span data-i18n="siteName">TK | Photography, Projects, Aviation</span></span>
+    <span class="footer-logo">TK</span>
+    <span data-i18n="footer.rights">All rights reserved</span>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: PROJECTS
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-projects">
+  <div class="stripe-bar sb-top" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="sec-hdr fu">
+    <div>
+      <div class="sec-num">02 — <span data-i18n="nav.projects">Projects</span></div>
+      <h2 class="sec-title" data-i18n="proj.pg.title">Selected<br>Work</h2>
+    </div>
+    <p class="sec-desc" data-i18n="proj.pg.desc">A collection of personal and professional projects across development, design, and creative technology.</p>
+  </div>
+  <svg class="sdiv" viewBox="0 0 1440 52" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,16 C300,16 520,44 1440,44" stroke="#3E2510" stroke-width="2.5" fill="none"/>
+    <path d="M0,22 C300,22 520,50 1440,50" stroke="#B83225" stroke-width="2.5" fill="none"/>
+    <path d="M0,28 C300,28 520,56 1440,56" stroke="#D96B2E" stroke-width="2"   fill="none"/>
+    <path d="M0,33 C300,33 520,61 1440,61" stroke="#E8A838" stroke-width="1.5" fill="none"/>
+  </svg>
+  <!-- ════════════════════════════════════════════════
+       PROJECT CARDS — Add/remove/duplicate freely.
+       onclick="openProject('id')" maps to PROJECTS{} in JS.
+       ════════════════════════════════════════════════ -->
+  <div class="proj-grid">
+    <div class="proj-card df fu" data-project="alpha" onclick="openProject('alpha')">
+      <div class="proj-img-wrap">
+        <img class="proj-img" src="https://picsum.photos/seed/prj1/640/400" alt="">
+        <div class="proj-overlay">
+          <div class="proj-overlay-tag" data-i18n="p1.tag">PDF / Design</div>
+          <div class="proj-overlay-title" data-i18n="p1.title">Plachtařský Zpěvník (2026)</div>
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-tag" data-i18n="p1.tag">PDF / Design</div>
+        <div class="proj-title" data-i18n="p1.title">Plachtařský Zpěvník (2026)</div>
+        <div class="proj-desc" data-i18n="p1.desc">Short description — what it does, what problem it solves, what made it interesting to build.</div>
+        <div class="proj-foot">
+          <span class="proj-link" data-i18n="proj.details">Details →</span>
+          <span class="proj-year">2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card df fu fu-d1" data-project="beta" onclick="openProject('beta')">
+      <div class="proj-img-wrap">
+        <img class="proj-img" src="https://picsum.photos/seed/prj2/640/400" alt="">
+        <div class="proj-overlay">
+          <div class="proj-overlay-tag" data-i18n="p2.tag">Design / Branding</div>
+          <div class="proj-overlay-title" data-i18n="p2.title">Project Beta</div>
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-tag" data-i18n="p2.tag">Design / Branding</div>
+        <div class="proj-title" data-i18n="p2.title">Project Beta</div>
+        <div class="proj-desc" data-i18n="p2.desc">Short description — what it does, what problem it solves, what made it interesting to build.</div>
+        <div class="proj-foot">
+          <span class="proj-link" data-i18n="proj.details">Details →</span>
+          <span class="proj-year">2025</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card df fu fu-d2" data-project="gamma" onclick="openProject('gamma')">
+      <div class="proj-img-wrap">
+        <img class="proj-img" src="https://picsum.photos/seed/prj3/640/400" alt="">
+        <div class="proj-overlay">
+          <div class="proj-overlay-tag" data-i18n="p3.tag">Hardware / Engineering</div>
+          <div class="proj-overlay-title" data-i18n="p3.title">Project Gamma</div>
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-tag" data-i18n="p3.tag">Hardware / Engineering</div>
+        <div class="proj-title" data-i18n="p3.title">Project Gamma</div>
+        <div class="proj-desc" data-i18n="p3.desc">Short description — what it does, what problem it solves, what made it interesting to build.</div>
+        <div class="proj-foot">
+          <span class="proj-link" data-i18n="proj.details">Details →</span>
+          <span class="proj-year">2025</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card df fu fu-d3" data-project="delta" onclick="openProject('delta')">
+      <div class="proj-img-wrap">
+        <img class="proj-img" src="https://picsum.photos/seed/prj4/640/400" alt="">
+        <div class="proj-overlay">
+          <div class="proj-overlay-tag" data-i18n="p4.tag">Research / Writing</div>
+          <div class="proj-overlay-title" data-i18n="p4.title">Project Delta</div>
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-tag" data-i18n="p4.tag">Research / Writing</div>
+        <div class="proj-title" data-i18n="p4.title">Project Delta</div>
+        <div class="proj-desc" data-i18n="p4.desc">Short description — what it does, what problem it solves, what made it interesting to build.</div>
+        <div class="proj-foot">
+          <span class="proj-link" data-i18n="proj.details">Details →</span>
+          <span class="proj-year">2024</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card df fu fu-d2" data-project="echo" onclick="openProject('echo')">
+      <div class="proj-img-wrap">
+        <img class="proj-img" src="https://picsum.photos/seed/prj5/640/400" alt="">
+        <div class="proj-overlay">
+          <div class="proj-overlay-tag" data-i18n="p5.tag">Aviation / Data</div>
+          <div class="proj-overlay-title" data-i18n="p5.title">Project Echo</div>
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-tag" data-i18n="p5.tag">Aviation / Data</div>
+        <div class="proj-title" data-i18n="p5.title">Project Echo</div>
+        <div class="proj-desc" data-i18n="p5.desc">Short description — what it does, what problem it solves, what made it interesting to build.</div>
+        <div class="proj-foot">
+          <span class="proj-link" data-i18n="proj.details">Details →</span>
+          <span class="proj-year">2024</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card df fu fu-d3" data-project="foxtrot" onclick="openProject('foxtrot')">
+      <div class="proj-img-wrap">
+        <img class="proj-img" src="https://picsum.photos/seed/prj6/640/400" alt="">
+        <div class="proj-overlay">
+          <div class="proj-overlay-tag" data-i18n="p6.tag">Photography / Art</div>
+          <div class="proj-overlay-title" data-i18n="p6.title">Project Foxtrot</div>
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-tag" data-i18n="p6.tag">Photography / Art</div>
+        <div class="proj-title" data-i18n="p6.title">Project Foxtrot</div>
+        <div class="proj-desc" data-i18n="p6.desc">Short description — what it does, what problem it solves, what made it interesting to build.</div>
+        <div class="proj-foot">
+          <span class="proj-link" data-i18n="proj.details">Details →</span>
+          <span class="proj-year">2023</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stripe-bar sb-bot" style="margin-top:auto" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <footer class="footer">
+    <span>© 2026 <span data-i18n="siteName">TK | Photography, Projects, Aviation</span></span>
+    <span class="footer-logo">TK</span>
+    <span data-i18n="footer.rights">All rights reserved</span>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: PROJECT DETAIL
+     Populated dynamically by openProject(id).
+     All content comes from the PROJECTS{} object in the JS below.
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-project-detail">
+  <div class="stripe-bar sb-top" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- Back nav + project name -->
+  <div class="pd-nav fu">
+    <button class="pd-back" onclick="go('projects')" data-i18n="pd.back">← Back to Projects</button>
+    <span class="pd-nav-label" id="pd-nav-label"></span>
+  </div>
+
+  <!-- Product gallery: viewer left, info right -->
+  <div class="pd-pg-wrap">
+
+    <!-- LEFT — image viewer + thumbnail strip -->
+    <div class="pd-viewer fu fu-d1">
+      <!--
+        Main image display. Clicking opens the full lightbox.
+        Image src is swapped by selectThumb() when thumbnails are clicked.
+      -->
+      <div class="pd-main-wrap df">
+        <button class="pd-main-nav pd-main-prev" id="pd-main-prev"
+                onclick="navProjectImage(-1)" aria-label="Previous image" hidden>‹</button>
+        <img class="pd-main-img" id="pd-main-img" src="" alt=""
+             onclick="openLBArr(_pdImages, _pdActiveIdx)">
+        <button class="pd-main-nav pd-main-next" id="pd-main-next"
+                onclick="navProjectImage(1)" aria-label="Next image" hidden>›</button>
+        <span class="pd-img-counter" id="pd-img-counter">1 / 1</span>
+      </div>
+
+      <!--
+        Thumbnail filmstrip.
+        Populated from PROJECTS[id].images[] by openProject().
+        Add more image paths to images[] to add more thumbnails.
+      -->
+      <div class="pd-thumbs" id="pd-thumbs"></div>
+    </div>
+
+    <!-- RIGHT — info, meta, CTAs -->
+    <div class="pd-info fu fu-d2">
+      <div class="pd-tag"   id="pd-tag"></div>
+      <h1  class="pd-title" id="pd-title">—</h1>
+      <!-- Brief one-liner summary; full README continues below -->
+      <p class="pd-short-desc" id="pd-short-desc"></p>
+
+      <div class="pd-cta-wrap">
+        <!-- Primary action: "Open Project Website" or "Download Project" -->
+        <a id="pd-cta" class="pd-cta" href="#" target="_blank" rel="noopener">Open Project Website</a>
+        <!-- Optional secondary link to README / docs -->
+        <a id="pd-readme" class="pd-readme-link" href="README.md" download>Download README.md</a>
+      </div>
+
+      <!-- Meta rows -->
+      <div class="pd-meta" id="pd-meta"></div>
+    </div>
+
+  </div><!-- /pd-pg-wrap -->
+
+  <!-- ─── Full-width: README / long description ─────────────────── -->
+  <div class="pd-desc-section fu fu-d3" id="pd-desc-section">
+    <div class="pd-desc-label" id="pd-desc-label" data-i18n="pd.description">Description</div>
+    <div class="pd-long-desc"  id="pd-long-desc"></div>
+  </div>
+
+  <div class="stripe-bar sb-bot" style="margin-top:auto" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <footer class="footer">
+    <span>© 2026 <span data-i18n="siteName">TK | Photography, Projects, Aviation</span></span>
+    <span class="footer-logo">TK</span>
+    <span data-i18n="footer.rights">All rights reserved</span>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: PHOTOGRAPHY
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-photography">
+  <div class="stripe-bar sb-top" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="sec-hdr fu" style="align-items:flex-start;">
+    <div style="display:flex;flex-direction:column;align-items:flex-start;">
+      <div class="sec-num">03 — <span data-i18n="nav.photography">Photography</span></div>
+      <h2 class="sec-title" data-i18n="photo.pg.title">Visual<br>Journal</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:0; margin-left:auto;">
+      <p class="sec-desc" data-i18n="photo.pg.desc" style="text-align:right;">Documenting moments, places, and light. Shot on film and digital across various continents.</p>
+      <a class="series-more" href="https://www.zonerama.com/tkpr" target="_blank" rel="noopener noreferrer" aria-label="Open Zonerama gallery" style="align-self:flex-end;">Zonerama</a>
+    </div>
+  </div>
+  <svg class="sdiv" viewBox="0 0 1440 52" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,16 C300,16 520,44 1440,44" stroke="#3E2510" stroke-width="2.5" fill="none"/>
+    <path d="M0,22 C300,22 520,50 1440,50" stroke="#B83225" stroke-width="2.5" fill="none"/>
+    <path d="M0,28 C300,28 520,56 1440,56" stroke="#D96B2E" stroke-width="2"   fill="none"/>
+    <path d="M0,33 C300,33 520,61 1440,61" stroke="#E8A838" stroke-width="1.5" fill="none"/>
+  </svg>
+
+  <!-- ════════════════════════════════════════════════
+       SERIES 1: nature
+       Replace src URLs with your photo paths
+       ════════════════════════════════════════════════ -->
+  <div class="series fu" data-series="nature">
+    <div class="series-hdr">
+      <div class="series-meta">
+        <span class="sc-label" data-i18n="s1.count">21 photographs</span>
+        <h3 class="series-name" data-i18n="s1.name">Nature</h3>
+      </div>
+      <button class="series-more" onclick="openModal('nature')" data-i18n="photo.more">More from this series →</button>
+    </div>
+    <div class="strip" id="s-nature">
+      <img class="sphoto" style="aspect-ratio:2/3"  src="assets/img/series/nature/preview/IMG_0769.jpg" alt="Nature preview 1" onclick="openLB(this,'nature',9)">
+      <img class="sphoto" style="aspect-ratio:3/2"  src="assets/img/series/nature/preview/IMG_3557.jpg" alt="Nature preview 2" onclick="openLB(this,'nature',1)">
+      <img class="sphoto" style="aspect-ratio:2/3"  src="assets/img/series/nature/preview/IMG_4738 (1).jpg" alt="Nature preview 3" onclick="openLB(this,'nature',14)">
+      <img class="sphoto" style="aspect-ratio:1/1"  src="assets/img/series/nature/preview/IMG_5363.jpg" alt="Nature preview 4" onclick="openLB(this,'nature',7)">
+      <img class="sphoto" style="aspect-ratio:2/3"  src="assets/img/series/nature/preview/IMG_8592 - Varianta 2.jpg" alt="Nature preview 5" onclick="openLB(this,'nature',11)">
+      <img class="sphoto" style="aspect-ratio:4/3"  src="assets/img/series/nature/preview/IMG_8727.jpg" alt="Nature preview 6" onclick="openLB(this,'nature',5)">
+      <img class="sphoto" style="aspect-ratio:2/3"  src="assets/img/series/nature/preview/IMG_8738.jpg" alt="Nature preview 7" onclick="openLB(this,'nature',4)">
+    </div>
+  </div>
+
+  <svg class="ssep" viewBox="0 0 1440 26" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,13 Q360,7 720,13 T1440,13"  stroke="#3E2510" stroke-width="1.2" fill="none" opacity=".32"/>
+    <path d="M0,16 Q360,10 720,16 T1440,16" stroke="#B83225" stroke-width="1.2" fill="none" opacity=".32"/>
+    <path d="M0,19 Q360,13 720,19 T1440,19" stroke="#D96B2E" stroke-width=".8"  fill="none" opacity=".26"/>
+  </svg>
+
+  <!-- ════════════════ SERIES 2: ARCHITECTURE ════════════════ -->
+  <div class="series fu" data-series="architecture">
+    <div class="series-hdr">
+      <div class="series-meta">
+        <span class="sc-label" data-i18n="s2.count">30 photographs</span>
+        <h3 class="series-name" data-i18n="s2.name">Architecture</h3>
+      </div>
+      <button class="series-more" onclick="openModal('architecture')" data-i18n="photo.more">More from this series →</button>
+    </div>
+    <div class="strip" id="s-architecture">
+      <img class="sphoto" style="aspect-ratio:3/4"  src="assets/img/series/architecture, street/preview/IMG_3198 (2).jpg" alt="Architecture preview 1" onclick="openLB(this,'architecture',9)">
+      <img class="sphoto" style="aspect-ratio:16/9" src="assets/img/series/architecture, street/preview/DSC07074 (1).jpg" alt="Architecture preview 2" onclick="openLB(this,'architecture',17)">
+      <img class="sphoto" style="aspect-ratio:3/4"  src="assets/img/series/architecture, street/preview/IMG_0201 (1).jpg" alt="Architecture preview 3" onclick="openLB(this,'architecture',18)">
+      <img class="sphoto" style="aspect-ratio:1/1"  src="assets/img/series/architecture, street/preview/IMG_7226 (1).jpg" alt="Architecture preview 4" onclick="openLB(this,'architecture',19)">
+      <img class="sphoto" style="aspect-ratio:3/4"  src="assets/img/series/architecture, street/preview/IMG_8435.jpg" alt="Architecture preview 5" onclick="openLB(this,'architecture',20)">
+      <img class="sphoto" style="aspect-ratio:3/2"  src="assets/img/series/architecture, street/preview/IMG_8444.jpg" alt="Architecture preview 6" onclick="openLB(this,'architecture',21)">
+    </div>
+  </div>
+
+  <svg class="ssep" viewBox="0 0 1440 26" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,13 Q360,7 720,13 T1440,13"  stroke="#3E2510" stroke-width="1.2" fill="none" opacity=".32"/>
+    <path d="M0,16 Q360,10 720,16 T1440,16" stroke="#B83225" stroke-width="1.2" fill="none" opacity=".32"/>
+  </svg>
+
+  <!-- ════════════════ SERIES 3: studio ════════════════ -->
+  <div class="series fu" data-series="studio">
+    <div class="series-hdr">
+      <div class="series-meta">
+        <span class="sc-label" data-i18n="s3.count">13 photographs</span>
+        <h3 class="series-name" data-i18n="s3.name">Studio</h3>
+      </div>
+      <button class="series-more" onclick="openModal('studio')" data-i18n="photo.more">More from this series →</button>
+    </div>
+    <div class="strip" id="s-studio">
+      <img class="sphoto" style="aspect-ratio:2/3"  src="assets/img/series/studio/preview/IMG_2725.jpg" alt="Studio preview 1" onclick="openLB(this,'studio',6)">
+      <img class="sphoto" style="aspect-ratio:2/3"  src="assets/img/series/studio/preview/IMG_4890 (2).jpg" alt="Studio preview 2" onclick="openLB(this,'studio',7)">
+      <img class="sphoto" style="aspect-ratio:1/1"  src="assets/img/series/studio/preview/IMG_6752.jpg" alt="Studio preview 3" onclick="openLB(this,'studio',8)">
+      <img class="sphoto" style="aspect-ratio:2/3"  src="assets/img/series/studio/preview/IMG_6753.jpg" alt="Studio preview 4" onclick="openLB(this,'studio',9)">
+      <img class="sphoto" style="aspect-ratio:4/5"  src="assets/img/series/studio/preview/IMG_8118JP - Varianta 1.jpg" alt="Studio preview 5" onclick="openLB(this,'studio',10)">
+      <img class="sphoto" style="aspect-ratio:2/3"  src="assets/img/series/studio/preview/IMG_8118JP.jpg" alt="Studio preview 6" onclick="openLB(this,'studio',11)">
+      <img class="sphoto" style="aspect-ratio:3/4"  src="assets/img/series/studio/preview/IMG_8156 (2)LAYERS.jpg" alt="Studio preview 7" onclick="openLB(this,'studio',12)">
+    </div>
+  </div>
+
+  <svg class="ssep" viewBox="0 0 1440 26" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,13 Q360,7 720,13 T1440,13"  stroke="#3E2510" stroke-width="1.2" fill="none" opacity=".32"/>
+    <path d="M0,16 Q360,10 720,16 T1440,16" stroke="#B83225" stroke-width="1.2" fill="none" opacity=".32"/>
+  </svg>
+
+  <!-- ════════════════ SERIES 4: Aviation ════════════════ -->
+  <div class="series fu" data-series="aviation">
+    <div class="series-hdr">
+      <div class="series-meta">
+        <span class="sc-label" data-i18n="s4.count">53 photographs</span>
+        <h3 class="series-name" data-i18n="s4.name">Aviation</h3>
+      </div>
+      <button class="series-more" onclick="openModal('aviation')" data-i18n="photo.more">More from this series →</button>
+    </div>
+    <div class="strip" id="s-aviation">
+      <img class="sphoto" style="aspect-ratio:3/2"  src="assets/img/series/aviation/preview/DSC02610.jpg" alt="Aviation preview 1" onclick="openLB(this,'aviation',42)">
+      <img class="sphoto" style="aspect-ratio:16/9" src="assets/img/series/aviation/preview/DSC02906.jpg" alt="Aviation preview 2" onclick="openLB(this,'aviation',43)">
+      <img class="sphoto" style="aspect-ratio:3/2"  src="assets/img/series/aviation/preview/DSC03071 - Varianta 1_104932.jpg" alt="Aviation preview 3" onclick="openLB(this,'aviation',44)">
+      <img class="sphoto" style="aspect-ratio:1/1"  src="assets/img/series/aviation/preview/DSC03609.jpg" alt="Aviation preview 4" onclick="openLB(this,'aviation',45)">
+      <img class="sphoto" style="aspect-ratio:3/2"  src="assets/img/series/aviation/preview/IMG_3823.jpg" alt="Aviation preview 5" onclick="openLB(this,'aviation',46)">
+      <img class="sphoto" style="aspect-ratio:16/9" src="assets/img/series/aviation/preview/IMG_3845.jpg" alt="Aviation preview 6" onclick="openLB(this,'aviation',47)">
+    </div>
+  </div>
+
+  <div style="height:40px"></div>
+  <div class="stripe-bar sb-bot" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <footer class="footer">
+    <span>© 2026 <span data-i18n="siteName">TK | Photography, Projects, Aviation</span></span>
+    <span class="footer-logo">TK</span>
+    <span data-i18n="footer.rights">All rights reserved</span>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: AVIATION
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-aviation">
+  <div class="stripe-bar sb-top" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="sec-hdr fu">
+    <div>
+      <div class="sec-num">04 — <span data-i18n="nav.aviation">Aviation</span></div>
+      <h2 class="sec-title" data-i18n="avia.pg.title">Flying<br>Log</h2>
+    </div>
+    <p class="sec-desc" data-i18n="avia.pg.desc">Private pilot. Flying for the love of it. Numbers, aircraft, and destinations.</p>
+  </div>
+  <svg class="sdiv" viewBox="0 0 1440 52" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,16 C300,16 520,44 1440,44" stroke="#3E2510" stroke-width="2.5" fill="none"/>
+    <path d="M0,22 C300,22 520,50 1440,50" stroke="#B83225" stroke-width="2.5" fill="none"/>
+    <path d="M0,28 C300,28 520,56 1440,56" stroke="#D96B2E" stroke-width="2"   fill="none"/>
+    <path d="M0,33 C300,33 520,61 1440,61" stroke="#E8A838" stroke-width="1.5" fill="none"/>
+  </svg>
+
+  <!-- ════════════════════════════════════════════════
+       STATS — Replace numbers. They animate on page load.
+       Format: data-target="123" for integer, "1.5" for decimal
+       ════════════════════════════════════════════════ -->
+  <div class="avia-stats fu">
+    <div class="stat df">
+      <div class="stat-val"><span class="counter" data-target="0">0</span><span class="stat-unit">h</span></div>
+      <div class="stat-lbl" data-i18n="as1">Total Flight Hours</div>
+    </div>
+    <div class="stat df">
+      <div class="stat-val"><span class="counter" data-target="0">0</span></div>
+      <div class="stat-lbl" data-i18n="as2">Landings</div>
+    </div>
+    <div class="stat df">
+      <div class="stat-val"><span class="counter" data-target="0">0</span></div>
+      <div class="stat-lbl" data-i18n="as3">Airports Visited</div>
+    </div>
+    <div class="stat df">
+      <div class="stat-val"><span class="counter" data-target="0">0</span><span class="stat-unit">k</span></div>
+      <div class="stat-lbl" data-i18n="as4">Nautical Miles</div>
+    </div>
+    <div class="stat df">
+      <div class="stat-val"><span class="counter" data-target="0">0</span><span class="stat-unit">h</span></div>
+      <div class="stat-lbl" data-i18n="as5">Night Hours</div>
+    </div>
+    <div class="stat df">
+      <div class="stat-val"><span class="counter" data-target="0">0</span><span class="stat-unit">h</span></div>
+      <div class="stat-lbl" data-i18n="as6">Cross-Country</div>
+    </div>
+  </div>
+
+  <!-- Route visualization (stylized) -->
+  <div class="route-vis fu">
+    <div class="route-label" data-i18n="avia.routeLabel">Sample Route — LKPR → LKTB → LKKU</div>
+    <svg class="route-svg" viewBox="0 0 800 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background subtle grid -->
+      <defs>
+        <pattern id="rg" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M40,0 L0,0 0,40" fill="none" stroke="currentColor" stroke-width=".3" opacity=".15"/>
+        </pattern>
+      </defs>
+      <rect width="800" height="100" fill="url(#rg)" color="var(--text)"/>
+      <!-- Route line -->
+      <path d="M80,60 Q250,20 420,50 Q600,80 720,40" stroke="#E04B38" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+      <!-- Airport dots -->
+      <circle cx="80"  cy="60" r="4" fill="#E04B38"/>
+      <circle cx="420" cy="50" r="4" fill="#E8A838"/>
+      <circle cx="720" cy="40" r="4" fill="#E04B38"/>
+      <!-- Labels -->
+      <text x="80"  y="80" font-family="'IBM Plex Mono',monospace" font-size="9" fill="currentColor" opacity=".7" text-anchor="middle">LKPR</text>
+      <text x="420" y="70" font-family="'IBM Plex Mono',monospace" font-size="9" fill="currentColor" opacity=".7" text-anchor="middle">LKTB</text>
+      <text x="720" y="60" font-family="'IBM Plex Mono',monospace" font-size="9" fill="currentColor" opacity=".7" text-anchor="middle">LKKU</text>
+      <!-- Compass rose -->
+      <g transform="translate(760,20)" opacity=".4">
+        <line x1="0" y1="-10" x2="0" y2="10" stroke="currentColor" stroke-width="1"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke="currentColor" stroke-width="1"/>
+        <text x="0" y="-12" font-size="7" font-family="'IBM Plex Mono',monospace" fill="currentColor" text-anchor="middle">N</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Gallery -->
+  <div class="gall-label fu" data-i18n="avia.gallLabel">Gallery</div>
+  <div class="strip fu" id="s-avia" style="margin-bottom:44px">
+    <img class="sphoto" style="aspect-ratio:3/2"  src="assets/img/series/aviation/preview/DSC02610.jpg" alt="Aviation gallery 1">
+    <img class="sphoto" style="aspect-ratio:16/9" src="assets/img/series/aviation/preview/DSC02906.jpg" alt="Aviation gallery 2">
+    <img class="sphoto" style="aspect-ratio:1/1"  src="assets/img/series/aviation/preview/DSC03609.jpg" alt="Aviation gallery 3">
+    <img class="sphoto" style="aspect-ratio:3/2"  src="assets/img/series/aviation/preview/IMG_3823.jpg" alt="Aviation gallery 4">
+    <img class="sphoto" style="aspect-ratio:16/9" src="assets/img/series/aviation/preview/IMG_3845.jpg" alt="Aviation gallery 5">
+    <img class="sphoto" style="aspect-ratio:3/2"  src="assets/img/series/aviation/preview/IMG_4094.jpg" alt="Aviation gallery 6">
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       AIRCRAFT — Add rows as needed
+       ════════════════════════════════════════════════ -->
+  <div class="ac-grid fu">
+    <div class="ac-label" data-i18n="avia.acLabel">Aircraft Flown</div>
+    <div class="ac-cards">
+      <div class="ac-card df"><div class="ac-ident">L-13</div><div class="ac-name" data-i18n="ac1">Cessna 172 Skyhawk</div></div>
+      <div class="ac-card df"><div class="ac-ident">ASK-21</div><div class="ac-name" data-i18n="ac2">Piper Cherokee 180</div></div>
+      <div class="ac-card df"><div class="ac-ident">Astir CS Jeans</div><div class="ac-name" data-i18n="ac3">Cessna 152</div></div>
+      <div class="ac-card df"><div class="ac-ident">DA40</div><div class="ac-name" data-i18n="ac4">Diamond DA40</div></div>
+    </div>
+  </div>
+
+  <div class="stripe-bar sb-bot" style="margin-top:auto" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <footer class="footer">
+    <span>© 2026 <span data-i18n="siteName">TK | Photography, Projects, Aviation</span></span>
+    <span class="footer-logo">TK</span>
+    <span data-i18n="footer.rights">All rights reserved</span>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CONTACT
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="stripe-bar sb-top" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="sec-hdr fu">
+    <div>
+      <div class="sec-num">05 — <span data-i18n="nav.contact">Contact</span></div>
+      <h2 class="sec-title" data-i18n="ct.title">Let's<br>Talk</h2>
+    </div>
+    <p class="sec-desc" data-i18n="ct.desc">Have a project in mind, want to collaborate, or just want to say hello.</p>
+  </div>
+  <svg class="sdiv" viewBox="0 0 1440 52" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,16 C300,16 520,44 1440,44" stroke="#3E2510" stroke-width="2.5" fill="none"/>
+    <path d="M0,22 C300,22 520,50 1440,50" stroke="#B83225" stroke-width="2.5" fill="none"/>
+    <path d="M0,28 C300,28 520,56 1440,56" stroke="#D96B2E" stroke-width="2"   fill="none"/>
+    <path d="M0,33 C300,33 520,61 1440,61" stroke="#E8A838" stroke-width="1.5" fill="none"/>
+  </svg>
+  <div class="contact-grid fu">
+    <!-- ════════════════════════════════════════════
+         FORM — Wire onSubmit to your backend / email service
+         ════════════════════════════════════════════ -->
+    <div class="cform">
+      <div class="ff">
+        <label class="fl" data-i18n="f.name">Name</label>
+        <input class="fi" type="text" id="f-nm" placeholder="TK | Photography, Projects, Aviation">
+      </div>
+      <div class="ff">
+        <label class="fl" data-i18n="f.email">Email</label>
+        <input class="fi" type="email" id="f-em" placeholder="your@email.com">
+      </div>
+      <div class="ff">
+        <label class="fl" data-i18n="f.subj">Subject</label>
+        <input class="fi" type="text" id="f-sb" placeholder="What's this about?">
+      </div>
+      <div class="ff">
+        <label class="fl" data-i18n="f.msg">Message</label>
+        <textarea class="fta" id="f-ms" placeholder="Tell me about your project..."></textarea>
+      </div>
+      <button class="sbtn" onclick="submitForm(event)" data-i18n="f.send">Send Message</button>
+    </div>
+    <!-- ════════════════════════════════════════════
+         CONTACT INFO — Edit values
+         ════════════════════════════════════════════ -->
+    <div>
+      <div class="ci-block">
+        <div class="ci-lbl" data-i18n="ci.email">Email</div>
+        <a class="ci-val" href="mailto:hello@yourname.com">hello@yourname.com</a>
+      </div>
+      <div class="ci-block">
+        <div class="ci-lbl" data-i18n="ci.based">Based in</div>
+        <div class="ci-val" data-i18n="ci.loc">Your City, Country</div>
+      </div>
+      <div class="ci-block">
+        <div class="ci-lbl" data-i18n="ci.social">Socials</div>
+        <div>
+          <a class="srow" href="https://instagram.com" target="_blank" rel="noopener"><span>Instagram</span><span>↗</span></a>
+          <a class="srow" href="https://github.com"    target="_blank" rel="noopener"><span>GitHub</span><span>↗</span></a>
+          <a class="srow" href="https://linkedin.com"  target="_blank" rel="noopener"><span>LinkedIn</span><span>↗</span></a>
+          <a class="srow" href="https://twitter.com"   target="_blank" rel="noopener"><span>X / Twitter</span><span>↗</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stripe-bar sb-bot" style="margin-top:auto" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <footer class="footer">
+    <span>© 2026 <span data-i18n="siteName">TK | Photography, Projects, Aviation</span></span>
+    <span class="footer-logo">TK</span>
+    <span data-i18n="footer.rights">All rights reserved</span>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     PHOTO SERIES MODAL
+     ════════════════════════════════════════════════════════════ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-hdr">
+    <h2 class="modal-title" id="modal-title">—</h2>
+    <button class="modal-close-btn" onclick="closeModal()" data-i18n="modal.close">✕ Close</button>
+  </div>
+  <div class="stripe-bar sb-top" style="position:sticky;top:57px;" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="modal-grid" id="modal-grid"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     INDIVIDUAL PHOTO LIGHTBOX
+     ════════════════════════════════════════════════════════════ -->
+<div class="lb" id="lb" role="dialog" aria-modal="true">
+  <button class="lb-close" onclick="closeLB()">✕ Close</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)">‹</button>
+  <img class="lb-img" id="lb-img" src="" alt="">
+  <button class="lb-nav lb-next" onclick="lbNav(1)">›</button>
+  <div class="lb-counter" id="lb-counter">1 / 1</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════════════════════════ -->
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   TRANSLATIONS  — Edit both EN and CS sections for all text
+   ═══════════════════════════════════════════════════════════════ */
+const T = {
+en:{
+  siteName:'TK | Photography, Projects, Aviation',
+  'footer.rights':'All rights reserved',
+  'nav.about':'About','nav.projects':'Projects',
+  'nav.photography':'Photography','nav.aviation':'Aviation','nav.contact':'Contact',
+  'about.eyebrow':'Pilot · Photographer',
+  'hero.l1':'First','hero.l2':'Last','hero.l3':'Name.',
+  'about.bio1':"I'm a photographer, and private pilot based in [Your City]. I build things that are either very useful or have absolutely no reason to exist — and I enjoy both equally.",
+  'about.bio2':"My work lives at the intersection of creative technology and aviation. Whether writing code, framing a shot, or planning a cross-country flight, I'm drawn to problems that reward patience and precision.",
+  'tag.dev':'Development','tag.design':'Design','tag.avia':'Aviation','tag.photo':'Photography','tag.ai':'AI / ML',
+  'hstat.projects':'Projects','hstat.air':'In the Air','hstat.since':'Since 20XX','hstat.coding':'Coding',
+  'now.label':'— Currently',
+  'now.working':'Working on','now.working.val':'Your Current Project',
+  'now.reading':'Reading','now.reading.val':'Book Title — Author',
+  'now.listening':'Listening','now.listening.val':'Artist / Album',
+  'now.flying':'Last Flight','now.flying.val':'XXXX → XXXX',
+  'proj.pg.title':'Selected Work','proj.pg.desc':'A collection of personal and professional projects across development, design, and creative technology.',
+  'proj.view':'View Project →',
+  'p1.tag':'PDF / Design','p1.title':'Plachtařský Zpěvník (2026)','p1.desc':'',
+  'p2.tag':'Aviation / Design','p2.title':'Project Beta','p2.desc':'Short description — what it does, what problem it solves, what made it interesting to build.',
+  'p3.tag':'Hardware / Engineering','p3.title':'Project Gamma','p3.desc':'Short description — what it does, what problem it solves, what made it interesting to build.',
+  'p4.tag':'Research / Writing','p4.title':'Project Delta','p4.desc':'Short description — what it does, what problem it solves, what made it interesting to build.',
+  'p5.tag':'Aviation / Data','p5.title':'Project Echo','p5.desc':'Short description — what it does, what problem it solves, what made it interesting to build.',
+  'p6.tag':'Photography / Art','p6.title':'Project Foxtrot','p6.desc':'Short description — what it does, what problem it solves, what made it interesting to build.',
+  'photo.pg.title':'Visual Journal','photo.pg.desc':'Documenting moments, places, and light. Shot on film and digital across various continents.',
+  'photo.more':'More from this series →',
+  's1.name':'nature','s1.count':'21 photographs',
+  's2.name':'Architecture, street','s2.count':'30 photographs',
+  's3.name':'studio','s3.count':'13 photographs',
+  's4.name':'Aviation','s4.count':'53 photographs',
+  'avia.pg.title':'Flying Log','avia.pg.desc':'Private pilot. Flying for the love of it. Numbers, aircraft, and destinations.',
+  'as1':'Total Flight Hours','as2':'Landings','as3':'Airports Visited',
+  'as4':'Nautical Miles','as5':'Night Hours','as6':'Cross-Country',
+  'avia.routeLabel':'Sample Route — LKPR → LKTB → LKKU',
+  'avia.gallLabel':'Gallery','avia.acLabel':'Aircraft Flown',
+  'ac1':'Cessna 172 Skyhawk','ac2':'Piper Cherokee 180','ac3':'Cessna 152','ac4':'Diamond DA40',
+  'ct.title':"Let's Talk",'ct.desc':'Have a project in mind, want to collaborate, or just want to say hello.',
+  'f.name':'Name','f.email':'Email','f.subj':'Subject','f.msg':'Message','f.send':'Send Message',
+  'ci.email':'Email','ci.based':'Based in','ci.loc':'Your City, Country','ci.social':'Socials',
+  'modal.close':'✕ Close',
+  '_n':'TK | Photography, Projects, Aviation','_e':'your@email.com','_s':"What's this about?",'_m':'Tell me about your project...',
+  // project detail
+  'proj.details':'Details →',
+  'pd.back':'← Back to Projects',
+  'pd.year':'Year','pd.category':'Category',
+  'pd.website':'Open Project Website','pd.download':'Download Project',
+  'pd.more':'more',
+  'pd.description':'Description','pd.gallery':'Gallery',
+},
+cs:{
+  siteName:'TK | Fotografie, Projekty, Letectví',
+  'footer.rights':'Všechna práva vyhrazena',
+  'nav.about':'O mně','nav.projects':'Projekty',
+  'nav.photography':'Fotografie','nav.aviation':'Letectví','nav.contact':'Kontakt',
+  'about.eyebrow':'Pilot · Fotograf',
+  'hero.l1':'Fly fast,','hero.l2':'die last.','hero.l3':'/TK/',
+  'about.bio1':'Jsem fotograf a soukromý pilot se základnou v [Vaše Město]. Stavím věci, které jsou buď velmi užitečné, nebo vůbec nemají důvod existovat — a obojí si užívám.',
+  'about.bio2':'Moje práce stojí na průsečíku kreativní technologie a letectví. Ať píšu kód, skládám záběr, nebo plánuji přelet — přitahují mě problémy, které odměňují trpělivost a přesnost.',
+  'tag.dev':'Vývoj','tag.design':'Design','tag.avia':'Letectví','tag.photo':'Fotografie','tag.ai':'AI / ML',
+  'hstat.projects':'Projektů','hstat.air':'Ve vzduchu','hstat.since':'Od 20XX','hstat.coding':'Programuji',
+  'now.label':'— Aktuálně',
+  'now.working':'Pracuji na','now.working.val':'Váš aktuální projekt',
+  'now.reading':'Čtu','now.reading.val':'Název knihy — Autor',
+  'now.listening':'Poslouchám','now.listening.val':'Interpret / Album',
+  'now.flying':'Poslední let','now.flying.val':'XXXX → XXXX',
+  'proj.pg.title':'Vybrané Práce','proj.pg.desc':'Sbírka osobních a profesionálních projektů napříč vývojem, designem a kreativní technologií.',
+  'proj.view':'Zobrazit projekt →',
+  'p1.tag':'PDF / Design','p1.title':'Plachtařský Zpěvník (2026)','p1.desc':'Zbrusu nové vydání zpěvníku, nově s akordy a novými písněmi, připravený pro tisk.',
+  'p2.tag':'Letectví / DESIGN','p2.title':'PilKa V.1.0','p2.desc':'Kompaktní pomůcka pro piloty GA VFR v ČR o velikosti vizitky.',
+  'p3.tag':'Letectví / Design','p3.title':'LeKar V.1.0','p3.desc':'Kompaktní pomůcka pro piloty GA VFR o velikosti vizitky obsahující informace o konkrétním letišti.',
+  'p4.tag':'Letectví/ Aplikace','p4.title':'Šmírka (Mobile)','p4.desc':'Webová aplikace pro zápis letů v terénu během dne.',
+  'p5.tag':'Letectví / Data','p5.title':'Radio dash (LKKO)','p5.desc':'Přehledný software pro stanoviště KOLÍN RADIO.',
+  'p6.tag':'Fotografie / Umění','p6.title':'Projekt Foxtrot','p6.desc':'Krátký popis — co dělá, jaký problém řeší, co bylo zajímavé.',
+  'photo.pg.title':'Tematická galerie','photo.pg.desc':'Veškerá fotografická práce je dostupná pod odkazem níže:',
+  'photo.more':'Více z této série →',
+  's1.name':'Příroda','s1.count':'21 fotografií',
+  's2.name':'Architektura, street','s2.count':'30 fotografií',
+  's3.name':'Studio','s3.count':'13 fotografií',
+  's4.name':'Letectví','s4.count':'53 fotografií',
+  'avia.pg.title':'Letecký Deník','avia.pg.desc':'Soukromý pilot. Létám pro radost. Čísla, letadla a destinace.',
+  'as1':'Celkový počet hodin','as2':'Přistání','as3':'Navštívená letiště',
+  'as4':'Námořní míle','as5':'Noční hodiny','as6':'Hodiny přeletů',
+  'avia.routeLabel':'Ukázková trasa — LKPR → LKTB → LKKU',
+  'avia.gallLabel':'Galerie','avia.acLabel':'Létané typy',
+  'ac1':'Cessna 172 Skyhawk','ac2':'Piper Cherokee 180','ac3':'Cessna 152','ac4':'Diamond DA40',
+  'ct.title':'Pojďme Mluvit','ct.desc':'Máte projekt? Chcete spolupracovat? Nebo jen pozdravit.',
+  'f.name':'Jméno a příjmení','f.email':'E-mail','f.subj':'Předmět','f.msg':'Zpráva','f.send':'Odeslat zprávu',
+  'ci.email':'E-mail','ci.based':'Základna','ci.loc':'Vaše Město, Stát','ci.social':'Sociální sítě',
+  'modal.close':'✕ Zavřít',
+  '_n':'Vaše Jméno a Příjmení','_e':'vas@email.cz','_s':'O čem to je?','_m':'Řekněte mi o svém projektu...',
+  // project detail
+  'proj.details':'Detaily →',
+  'pd.back':'← Zpět na projekty',
+  'pd.year':'Rok','pd.category':'Kategorie',
+  'pd.website':'Otevřít web projektu','pd.download':'Stáhnout projekt',
+  'pd.more':'dalších',
+  'pd.description':'Popis projektu','pd.gallery':'Galerie',
+}};
+
+/* ═══════════════════════════════════════════════════════════════
+   PROJECT DATA
+   ═══════════════════════════════════════════════════════════════
+   HOW TO EDIT:
+   Each key (alpha, beta …) maps to a project card's onclick="openProject('key')".
+   
+   PER PROJECT:
+     en / cs   — localised content
+       title     — display name
+       tag       — category label
+       desc      — short text shown on the card
+       longDesc  — full text shown on the detail page (can be multi-line)
+       type      — 'website'  → "Open Project Website" button (opens in new tab)
+                   'download' → "Download Project" button (direct link)
+       link      — URL for the CTA button
+       linkLabel — optional override for the button label
+     images    — array of URLs:
+                   [0] → full-width hero on detail page
+                   [1…n] → gallery grid (add as many as you like)
+                 Replace picsum URLs with your actual file paths or hosted images.
+   ═══════════════════════════════════════════════════════════════
+   MARKDOWN DESCRIPTIONS
+   ─────────────────────────────────────────────────────────────
+   Each project can have a formatted description loaded from a
+   Markdown file instead of (or as a fallback from) longDesc:
+
+     readme    — path to the English .md file
+     readme_cs — path to the Czech .md file
+
+   Set either to null (or omit) if that language version doesn't
+   exist yet — the site falls back to the other language's file,
+   then to the plain longDesc string.
+
+   Suggested file locations (add to your repo):
+     assets/downloads/<project-id>/README.md
+     assets/downloads/<project-id>/README_CZ.md
+   ═══════════════════════════════════════════════════════════════ */
+const PROJECTS = {
+  alpha:{
+    en:{title:'Plachtařský Zpěvník (2026)',tag:'PDF / Design',
+        desc:'',
+        longDesc:'',
+        type:'download',link:'assets/downloads/projects/Plachtarsky_zpevnik_2026.zip'},
+    cs:{title:'Plachtařský Zpěvník (2026)',tag:'PDF',
+        desc:'Nové vydání plachtařského zpěvníku k 20. výročí od vydání původních "Zpěvů letištních".',
+        longDesc:'',
+        type:'download',link:'assets/downloads/projects/Plachtarsky_zpevnik_2026.zip'},
+    readme:    null, // e.g. 'assets/downloads/alpha/README.md'
+    readme_cs: 'assets/downloads/projects/pl_zpevnik/readme_pdf_plzpevnik_2026.md', // e.g. 'assets/downloads/alpha/README_CZ.md'
+    folder:'assets/img/projects/pl_zpevnik',
+    images:['assets/img/projects/pl_zpevnik/cover.png',
+            'assets/img/projects/pl_zpevnik/ex1.png',
+            'assets/img/projects/pl_zpevnik/ex2.png',
+            'assets/img/projects/pl_zpevnik/ex3.png'],
+    year:'2026'},
+  beta:{
+    en:{title:'PilKa V.1.0',tag:'AVIATION / DESIGN',
+        desc:'A compact card containing essential information for Czech GA operations.',
+        longDesc:'',
+        type:'download',link:'#'},
+    cs:{title:'PilKa V.1.0',tag:'Letectví / Design',
+        desc:'Kompaktní pomůcka pro piloty GA VFR o velikosti vizitky.',
+        longDesc:'',
+        type:'download',link:'assets/downloads/projects/pilka/Pilka_1.0.zip'},
+    readme:    null,
+    readme_cs: 'assets/downloads/projects/pilka/readme_pilka.md',
+    folder:'assets/img/projects/pilka',
+    images:['assets/img/projects/pilka/Snímek obrazovky 2026-06-10 205137.png'],
+    year:'2026'},
+  gamma:{
+    en:{title:'LeKar V.1.0',tag:'Aviation / Design',
+        desc:'',
+        longDesc:'',
+        type:'download',link:'#'},
+    cs:{title:'LeKar V.1.0',tag:'Letectví / Design',
+        desc:'Kompaktní pomůcka pro piloty GA v ČR s informacemi o konkrétním letišti.',
+        longDesc:'Podrobný popis projektu.',
+        type:'download',link:'assets/downloads/projects/lekar/LeKar_V.1.0.zip'},
+    readme:    null,
+    readme_cs: 'assets/downloads/projects/lekar/readme_lekar.md',
+    folder:'assets/img/projects/lekar_lkko',
+    images:['assets/img/projects/lekar_lkko/Snímek obrazovky 2026-06-10 204947.png'],
+    year:'2025'},
+  delta:{
+    en:{title:'Project Delta',tag:'Research / Writing',
+        desc:'Short description — what it does, what problem it solves, what made it interesting to build.',
+        longDesc:'Detailed project description.',
+        type:'website',link:'#'},
+    cs:{title:'Šmírka (Mobile)',tag:'Letectví / Aplikace',
+        desc:'Krátký popis projektu.',
+        longDesc:'Podrobný popis projektu.',
+        type:'website',link:'https://t0k-0.github.io/smirka_app/'},
+    readme:    null,
+    readme_cs: 'assets/downloads/projects/smirka_app/readme_smirka_app.md',
+    folder:'assets/img/projects/smirka_app',
+    images:['assets/img/projects/smirka_app/cover.png',],
+    year:'2026'},
+  echo:{
+    en:{title:'Project Echo',tag:'Aviation / Data',
+        desc:'Short description — what it does, what problem it solves, what made it interesting to build.',
+        longDesc:'Detailed project description.',
+        type:'website',link:'#'},
+    cs:{title:'Radio dash (LKKO)',tag:'Letectví / Data',
+        desc:'Krátký popis projektu.',
+        longDesc:'Podrobný popis projektu.',
+        type:'website',link:'#'},
+    readme:    null,
+    readme_cs: null,
+    folder:'assets/img/projects/radio_dash_lkko',
+    images:['assets/img/projects/radio_dash_lkko/cover.svg',
+            'assets/img/projects/radio_dash_lkko/detail.svg'],
+    year:'2026'},
+  foxtrot:{
+    en:{title:'Project Foxtrot',tag:'Photography / Art',
+        desc:'Short description — what it does, what problem it solves, what made it interesting to build.',
+        longDesc:'Detailed project description.',
+        type:'website',link:'#'},
+    cs:{title:'Projekt Foxtrot',tag:'Fotografie / Umění',
+        desc:'Krátký popis projektu.',
+        longDesc:'Podrobný popis projektu.',
+        type:'website',link:'#'},
+    readme:    null,
+    readme_cs: null,
+    folder:'assets/img/projects/smirka_app',
+    images:['assets/img/projects/foxtrot/cover.svg',
+            'assets/img/projects/foxtrot/detail.svg'],
+    year:'2023'},
+};
+const SERIES = {
+  nature:{tk:'s1.name',photos:[
+    {src:'assets/img/series/nature/IMG_3565 - Varianta 1.jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_3557.jpg',ar:'3/2'},
+    {src:'assets/img/series/nature/IMG_3476.jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_8786.jpg',ar:'3/2'},
+    {src:'assets/img/series/nature/IMG_8738.jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_8727.jpg',ar:'4/3'},
+    {src:'assets/img/series/nature/IMG_8838.jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_5363.jpg',ar:'1/1'},
+    {src:'assets/img/series/nature/IMG_0772.jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_0769.jpg',ar:'3/2'},
+    {src:'assets/img/series/nature/IMG_1612.jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_8592 - Varianta 2.jpg',ar:'3/2'},
+    {src:'assets/img/series/nature/IMG_4743 (1).jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_4741.jpg',ar:'3/2'},
+    {src:'assets/img/series/nature/IMG_4738 (1).jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_4725.jpg',ar:'3/2'},
+    {src:'assets/img/series/nature/IMG_4662.jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_4508.jpg',ar:'3/2'},
+    {src:'assets/img/series/nature/IMG_7323.jpg',ar:'2/3'},
+    {src:'assets/img/series/nature/IMG_7287.jpg',ar:'3/2'},
+    {src:'assets/img/series/nature/IMG_7291.jpg',ar:'2/3'},
+  ]},
+  architecture:{tk:'s2.name',photos:[
+    {src:'assets/img/series/architecture, street/IMG_4174.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_2023.jpg',ar:'16/9'},
+    {src:'assets/img/series/architecture, street/IMG_2024.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_2030.jpg',ar:'1/1'},
+    {src:'assets/img/series/architecture, street/IMG_2220.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_0359.jpg',ar:'3/2'},
+    {src:'assets/img/series/architecture, street/IMG_0368.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/zIMG_9342 (1).jpg',ar:'16/9'},
+    {src:'assets/img/series/architecture, street/IMG_7668.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_3198 (2).jpg',ar:'1/1'},
+    {src:'assets/img/series/architecture, street/IMG_3775 (1).jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_8418.jpg',ar:'16/9'},
+    {src:'assets/img/series/architecture, street/IMG_8566.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_8587.jpg',ar:'1/1'},
+    {src:'assets/img/series/architecture, street/IMG_8645.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_8654.jpg',ar:'16/9'},
+    {src:'assets/img/series/architecture, street/IMG_8688 (1).jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/DSC07074 (1).jpg',ar:'3/2'},
+    {src:'assets/img/series/architecture, street/IMG_0201 (1).jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_7226 (1).jpg',ar:'1/1'},
+    {src:'assets/img/series/architecture, street/IMG_8435.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_8444.jpg',ar:'16/9'},
+    {src:'assets/img/series/architecture, street/IMG_8531.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_8606.jpg',ar:'1/1'},
+    {src:'assets/img/series/architecture, street/zIMG_9437.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/DSC08110.jpg',ar:'16/9'},
+    {src:'assets/img/series/architecture, street/DSC08118 - Varianta 1.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_4638.jpg',ar:'1/1'},
+    {src:'assets/img/series/architecture, street/IMG_5035.jpg',ar:'3/4'},
+    {src:'assets/img/series/architecture, street/IMG_5780.jpg',ar:'16/9'},
+  ]},
+  studio:{tk:'s3.name',photos:[
+    {src:'assets/img/series/studio/DSC07146.jpg',ar:'2/3'},
+    {src:'assets/img/series/studio/IMG_2689.jpg',ar:'2/3'},
+    {src:'assets/img/series/studio/IMG_2805.jpg',ar:'1/1'},
+    {src:'assets/img/series/studio/IMG_6840.jpg',ar:'2/3'},
+    {src:'assets/img/series/studio/IMG_2732.jpg',ar:'4/5'},
+    {src:'assets/img/series/studio/IMG_2727.jpg',ar:'2/3'},
+    {src:'assets/img/series/studio/IMG_2725.jpg',ar:'3/4'},
+    {src:'assets/img/series/studio/IMG_4890 (2).jpg',ar:'2/3'},
+    {src:'assets/img/series/studio/IMG_6752.jpg',ar:'1/1'},
+    {src:'assets/img/series/studio/IMG_6753.jpg',ar:'2/3'},
+    {src:'assets/img/series/studio/IMG_8118JP - Varianta 1.jpg',ar:'4/5'},
+    {src:'assets/img/series/studio/IMG_8118JP.jpg',ar:'2/3'},
+    {src:'assets/img/series/studio/IMG_8156 (2)LAYERS.jpg',ar:'3/4'},
+  ]},
+  aviation:{tk:'s4.name',photos:[
+    {src:'assets/img/series/aviation/IMG_9607.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_2363.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_4370 (1).jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_5555.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_5580.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_5585.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/DSC02047.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_6997.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_7200.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_7377.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/DSC03598.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_2363 (1).jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_3072.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_4099 - Varianta 1.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_6622.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_7410.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_7635.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_8081 - Varianta 2.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_8892.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_8905.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_8913.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_7642 (2).jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_7728.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_7744.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_7910.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_6310 - Varianta 1.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_6251.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_6266 (1).jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_6331.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_5850 - Varianta 1 - Varianta 1 (1).jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_5906.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_6032.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_6110.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_7040.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_7239.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_3767.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_3850.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/DSC02741 - Varianta 1.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/DSC02949_104732.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/DSC02974 - Varianta 1_104850.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/DSC03022.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/DSC03147_105050.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/DSC02610.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/DSC02906.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/DSC03071 - Varianta 1_104932.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/DSC03609.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_3823.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_3845.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_4094.jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_6283.jpg',ar:'1/1'},
+    {src:'assets/img/series/aviation/IMG_6316 (1).jpg',ar:'3/2'},
+    {src:'assets/img/series/aviation/IMG_7935.jpg',ar:'16/9'},
+    {src:'assets/img/series/aviation/IMG_8016 (1).jpg',ar:'3/2'},
+  ]}
+};
+
+/* ═══════════════════════════════════════
+   MARQUEE DATA — Edit words as desired
+   ═══════════════════════════════════════ */
+const MARQUEE_WORDS = ['-','-','-','-','-','-','-','-','-','-','-'];
+
+/* ═══════════════════════════════════════
+   LANGUAGE
+   ═══════════════════════════════════════ */
+let LANG = localStorage.getItem('lang')||'cs';
+
+function setLang(l, reloadPage = false) {
+  LANG = l; localStorage.setItem('lang',l);
+  document.documentElement.lang = l;
+  document.querySelectorAll('.lang-switch').forEach(sel=>{
+    if(sel.value !== l) sel.value = l;
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(T[l][k]!==undefined) el.textContent=T[l][k];
+  });
+  const ph=(id,k)=>{const e=document.getElementById(id);if(e)e.placeholder=T[l][k]||''};
+  ph('f-nm','_n');ph('f-em','_e');ph('f-sb','_s');ph('f-ms','_m');
+  const mt=document.getElementById('modal-title');
+  if(mt&&mt._sk) mt.textContent=T[l][mt._sk]||'';
+
+  // If the project detail page is open, re-render the description in the new language
+  if(_currentProjectId &&
+     document.getElementById('page-project-detail')?.classList.contains('active')) {
+    const p = PROJECTS[_currentProjectId];
+    const d = p?.[l] || p?.en;
+    if(p && d) renderProjectDesc(p, d);
+  }
+
+  if(reloadPage) {
+    window.setTimeout(() => window.location.reload(), 0);
+  }
+}
+
+/* ═══════════════════════════════════════
+   ROUTING  (no History API — safe in iframes)
+   ═══════════════════════════════════════ */
+const PAGES=['about','projects','photography','aviation','contact','project-detail'];
+
+/* history API is blocked in sandboxed iframes (e.g. Claude preview).
+   These helpers fail silently there but work correctly when served normally. */
+function _pushHash(page){
+  try{ history.pushState({page},'','#'+page); }catch(e){ location.hash=page; }
+}
+function _replaceHash(page){
+  try{ history.replaceState({page},'','#'+page); }catch(e){}
+}
+
+function go(p){
+  if(!PAGES.includes(p)) p='about';
+  /* Update the URL so reloading always lands on this page.
+     project-detail is excluded — openProject() owns its own hash. */
+  if(p!=='project-detail') _pushHash(p);
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===p));
+  const el=document.getElementById('page-'+p);
+  if(el){el.classList.add('active');window.scrollTo({top:0,behavior:'instant'});}
+  closeMob();
+  setTimeout(triggerFU,60);
+  if(p==='aviation') setTimeout(runCounters,200);
+  if(p==='photography'){
+    setTimeout(()=>{
+      document.querySelectorAll('#page-photography .series').forEach(el=>el.classList.add('in'));
+    },80);
+  }
+}
+
+/* Browser back / forward: re-route to whatever hash the browser restored */
+window.addEventListener('popstate',()=>{
+  const hash=location.hash.slice(1);
+  if(hash.startsWith('project/')){
+    const pid=hash.slice(8);
+    if(PROJECTS[pid]) openProject(pid); else go('about');
+  } else {
+    /* Switch page without pushing another history entry */
+    const p=PAGES.includes(hash)?hash:'about';
+    document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===p));
+    const el=document.getElementById('page-'+p);
+    if(el){el.classList.add('active');window.scrollTo({top:0,behavior:'instant'});}
+    setTimeout(triggerFU,60);
+    if(p==='photography'){
+      setTimeout(()=>{
+        document.querySelectorAll('#page-photography .series').forEach(el=>el.classList.add('in'));
+      },80);
+    }
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   PROJECT DETAIL — product gallery + markdown descriptions
+   ═══════════════════════════════════════════════════════════════ */
+let _pdImages = [], _pdActiveIdx = 0, _currentProjectId = null;
+let _thumbsExpanded = false;           // tracks whether the overflow tile has been opened
+
+/* Maximum thumbnails shown before the "+N more" tile appears */
+const THUMB_LIMIT = 6;
+
+/* ── rebuild the thumbnail filmstrip ─────────────────────────────
+   Called on first open and again after expandThumbStrip().
+   In compact mode: shows first THUMB_LIMIT images + overflow tile.
+   In expanded mode: shows all images, scrollable.
+   ─────────────────────────────────────────────────────────────── */
+function _buildThumbStrip() {
+  const strip = document.getElementById('pd-thumbs');
+  if(!strip) return;
+
+  const total    = _pdImages.length;
+  /* In compact mode show THUMB_LIMIT-1 thumbs so the "+N more" tile
+     fills the 6th cell — one complete row, no overflow to a second row. */
+  const COMPACT_SHOW = THUMB_LIMIT - 1;                 // 5
+  const needMore = !_thumbsExpanded && total > THUMB_LIMIT;
+  const visible  = needMore ? _pdImages.slice(0, COMPACT_SHOW) : _pdImages;
+
+  let html = visible.map((src, i) =>
+    `<img class="pd-thumb${i===_pdActiveIdx?' active':''}"
+          src="${src}" alt="Image ${i+1}" loading="lazy"
+          onclick="selectThumb(${i})">`
+  ).join('');
+
+  if(needMore) {
+    const extra = total - COMPACT_SHOW;
+    html += `<div class="pd-thumb-more" onclick="expandThumbStrip()" title="${extra} ${T[LANG]['pd.more']||'dalších'}">
+      <strong>+${extra}</strong>
+      <span>${T[LANG]['pd.more']||'dalších'}</span>
+    </div>`;
+  }
+
+  strip.innerHTML = html;
+}
+
+/* Expand from compact to full grid — rows just continue downward */
+function expandThumbStrip() {
+  _thumbsExpanded = true;
+  _buildThumbStrip();
+  /* scroll so the newly revealed first row is visible */
+  const strip = document.getElementById('pd-thumbs');
+  const firstNew = strip?.children[THUMB_LIMIT - 1];
+  if(firstNew) firstNew.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function selectThumb(idx) {
+  if(!_pdImages.length) return;
+  idx = (idx + _pdImages.length) % _pdImages.length;
+  if(idx === _pdActiveIdx) return;
+  _pdActiveIdx = idx;
+
+  /* Auto-expand when arrow navigation reaches an image past the visible 5 */
+  if(!_thumbsExpanded && idx >= THUMB_LIMIT - 1) {
+    expandThumbStrip();
+  }
+
+  const main    = document.getElementById('pd-main-img');
+  const counter = document.getElementById('pd-img-counter');
+
+  main.style.opacity   = '0';
+  main.style.transform = 'scale(1.02)';
+  setTimeout(() => {
+    main.src             = _pdImages[idx];
+    main.style.opacity   = '';
+    main.style.transform = '';
+    /* Preserve contain mode when a project uses fit:'contain' */
+    const wrap = document.getElementById('pd-main-wrap');
+    if(wrap) main.style.objectFit = wrap.dataset.fit || 'cover';
+  }, 160);
+
+  if(counter) counter.textContent = (idx + 1) + ' / ' + _pdImages.length;
+
+  /* Highlight the correct thumbnail (works in both compact + expanded mode) */
+  document.querySelectorAll('.pd-thumb').forEach((t, i) =>
+    t.classList.toggle('active', i === idx)
+  );
+
+  const strip    = document.getElementById('pd-thumbs');
+  const activeTh = strip?.children[idx];
+  if(activeTh) activeTh.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function navProjectImage(dir){
+  if(!_pdImages.length) return;
+  selectThumb(_pdActiveIdx + dir);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   renderProjectDesc — fetches a Markdown file and renders it into
+   #pd-long-desc using marked.js. Falls back gracefully:
+     1. Current-language readme (readme / readme_cs based on LANG)
+     2. The other-language readme if the preferred one is null
+     3. Plain longDesc string
+   ───────────────────────────────────────────────────────────────── */
+async function renderProjectDesc(p, d) {
+  const descEl = document.getElementById('pd-long-desc');
+  if(!descEl) return;
+
+  // Pick the best available readme path for the current language
+  const mdPath = LANG === 'cs'
+    ? (p.readme_cs || p.readme)
+    : (p.readme    || p.readme_cs);
+
+  if(mdPath) {
+    descEl.className = 'pd-long-desc';                       // remove .plain
+    descEl.innerHTML = '<span class="pd-md-loading">···</span>';
+    try {
+      const resp = await fetch(mdPath);
+      if(resp.ok) {
+        const md = await resp.text();
+        // Wait for marked.js if it hasn't finished loading yet
+        let waited = 0;
+        while(typeof marked === 'undefined' && waited < 3000) {
+          await new Promise(r => setTimeout(r, 50));
+          waited += 50;
+        }
+        if(typeof marked !== 'undefined') {
+          // Configure marked: sanitize links, open external links safely
+          marked.use({ gfm: true, breaks: true });
+          descEl.innerHTML = marked.parse(md);
+          // Make all links inside the description open in a new tab safely
+          descEl.querySelectorAll('a').forEach(a => {
+            if(a.hostname && a.hostname !== location.hostname) {
+              a.setAttribute('target', '_blank');
+              a.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+          return;
+        }
+      }
+    } catch(e) { /* network error / CORS — fall through to plain text */ }
+  }
+
+  // Fallback: plain text (keep pre-wrap for line breaks in longDesc strings)
+  descEl.className = 'pd-long-desc plain';
+  descEl.textContent = d.longDesc || '';
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUTO-DISCOVER PROJECT IMAGES
+   Probes <folder>/cover.{ext}, ex1.{ext}, ex2.{ext} … until the
+   sequence breaks. Falls back to p.images[] if nothing found.
+   Convention: name files  cover.png  ex1.png  ex2.png  ex3.png …
+   ═══════════════════════════════════════════════════════════════ */
+const _IMG_EXTS = ['png','jpg','jpeg','webp','svg','PNG','JPG'];
+
+function _probeImg(src){
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload =()=>resolve(src);
+    img.onerror=()=>resolve(null);
+    img.src=src;
+  });
+}
+
+async function _findInFolder(folder,name){
+  for(const ext of _IMG_EXTS){
+    const found=await _probeImg(`${folder}/${name}.${ext}`);
+    if(found) return found;
+  }
+  return null;
+}
+
+async function discoverImages(folder){
+  const results=[];
+  // cover
+  const cover=await _findInFolder(folder,'cover');
+  if(cover) results.push(cover);
+  // ex1 … ex40
+  for(let i=1;i<=40;i++){
+    const found=await _findInFolder(folder,'ex'+i);
+    if(found) results.push(found);
+    else break;
+  }
+  return results;
+}
+
+
+async function openProject(id){
+  _currentProjectId = id;
+  const p = PROJECTS[id]; if(!p) return;
+  const d = p[LANG] || p.en;
+
+  // ── 1. Navigate immediately so the page is visible ──────────────
+  location.hash = 'project/' + id;
+  go('project-detail');
+
+  // ── 2. Populate static fields right away ───────────────────────
+  document.getElementById('pd-nav-label').textContent = d.title;
+  document.getElementById('pd-tag').textContent        = d.tag;
+  document.getElementById('pd-title').textContent      = d.title;
+
+  // Short description: same text as shown on the projects card
+  const shortDescEl = document.getElementById('pd-short-desc');
+  if(shortDescEl) shortDescEl.textContent = d.desc || '';
+
+  // ── 4. CTA + README link ────────────────────────────────────────
+  const cta       = document.getElementById('pd-cta');
+  const readmeBtn = document.getElementById('pd-readme');
+  const isDownload = d.type === 'download';
+  cta.textContent = d.linkLabel || (isDownload
+    ? (T[LANG]['pd.download'] || 'Download Project')
+    : (T[LANG]['pd.website']  || 'Open Project Website'));
+  cta.href = d.link || '#';
+  if(isDownload){ cta.setAttribute('download',''); cta.removeAttribute('target'); }
+  else          { cta.removeAttribute('download'); cta.setAttribute('target','_blank'); }
+
+  if(readmeBtn){
+    const rmPath = (LANG==='cs' && p.readme_cs) ? p.readme_cs : (p.readme || 'README.md');
+    readmeBtn.href = rmPath;
+    readmeBtn.setAttribute('download','README.md');
+    readmeBtn.style.display = '';
+  }
+
+  // ── 3. Discover images (folder probe → fallback to images[]) ────
+  let images = [];
+  if(p.folder){
+    images = await discoverImages(p.folder);
+  }
+  if(!images.length && p.images?.length){
+    images = [...p.images];
+  }
+
+  _pdImages    = images;
+  _pdActiveIdx = 0;
+  _thumbsExpanded = false;   // always start compact when opening a new project
+
+  // ── 5. Main image viewer + arrow buttons ───────────────────────
+  const imgFit = p.fit || 'cover';
+  const main = document.getElementById('pd-main-img');
+  if(main){
+    main.src             = _pdImages[0] || '';
+    main.alt             = d.title;
+    main.style.opacity   = '';
+    main.style.transform = '';
+    main.style.objectFit = imgFit;
+  }
+  const wrap = document.getElementById('pd-main-wrap');
+  if(wrap) wrap.dataset.fit = imgFit;
+
+  const counter = document.getElementById('pd-img-counter');
+  if(counter) counter.textContent = '1 / ' + (_pdImages.length || 1);
+
+  const prevBtn = document.getElementById('pd-main-prev');
+  const nextBtn = document.getElementById('pd-main-next');
+  const showArrows = _pdImages.length > 1;
+  if(prevBtn) prevBtn.hidden = !showArrows;
+  if(nextBtn) nextBtn.hidden = !showArrows;
+
+  // ── 6. Thumbnail filmstrip (max THUMB_LIMIT visible + overflow tile) ──
+  _buildThumbStrip();
+
+  // ── 7. Meta rows ────────────────────────────────────────────────
+  document.getElementById('pd-meta').innerHTML = `
+    <div class="pd-meta-row">
+      <span>${T[LANG]['pd.year']     || 'Year'}</span>
+      <span class="pd-meta-val">${p.year}</span>
+    </div>
+    <div class="pd-meta-row">
+      <span>${T[LANG]['pd.category'] || 'Category'}</span>
+      <span class="pd-meta-val">${d.tag}</span>
+    </div>
+    <div class="pd-meta-row">
+      <span>Type</span>
+      <span class="pd-meta-val">${isDownload ? 'Download' : 'Website'}</span>
+    </div>
+    <div class="pd-meta-row">
+      <span>Images</span>
+      <span class="pd-meta-val">${_pdImages.length}</span>
+    </div>`;
+
+  // ── 8. Render long description / README (async) ─────────────────
+  renderProjectDesc(p, d);
+}
+
+/* Project-gallery lightbox: uses _pdImages / _pdActiveIdx */
+let _lbArr=[], _lbI=0;
+function openLBArr(arr, idx){
+  _lbArr = arr; _lbI = idx;
+  document.getElementById('lb-img').src = arr[idx];
+  document.getElementById('lb-counter').textContent = (idx+1) + ' / ' + arr.length;
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLB(){
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow = '';
+  _lbArr = []; /* always clear so series arrows don't accidentally use project images */
+}
+
+window.addEventListener('keydown', (e) => {
+  if(!document.getElementById('page-project-detail')?.classList.contains('active')) return;
+  if(document.getElementById('lb').classList.contains('open')) return; /* lb has its own handlers */
+  if(e.key === 'ArrowLeft') { e.preventDefault(); navProjectImage(-1); }
+  if(e.key === 'ArrowRight') { e.preventDefault(); navProjectImage(1); }
+});
+
+/* ═══════════════════════════════════════
+   THEME
+   ═══════════════════════════════════════ */
+const LOGO_ASSETS={dark:'assets/sitelogo_darkmode.svg',light:'assets/sitelogo_lightmode.svg'};
+function applyThemeLogos(theme){
+  const href=LOGO_ASSETS[theme]||LOGO_ASSETS.dark;
+  const favicon=document.getElementById('favicon');
+  if(favicon) favicon.href=href;
+}
+function toggleTheme(){
+  const d=document.documentElement;
+  const next=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',next);
+  localStorage.setItem('theme',next);
+  const s=next==='dark'?'◑':'◐';
+  document.getElementById('theme-btn').textContent=s;
+  document.getElementById('m-th').textContent=s;
+  applyThemeLogos(next);
+}
+
+/* ═══════════════════════════════════════
+   MOBILE MENU
+   ═══════════════════════════════════════ */
+let mobOpen=false;
+function toggleMob(){mobOpen=!mobOpen;document.getElementById('mob-drawer').classList.toggle('open',mobOpen);}
+function closeMob(){mobOpen=false;document.getElementById('mob-drawer').classList.remove('open');}
+document.addEventListener('click',e=>{
+  if(mobOpen&&!e.target.closest('#mob-drawer')&&!e.target.closest('#mob-tog')) closeMob();
+});
+
+/* ═══════════════════════════════════════
+   SCROLL PROGRESS
+   ═══════════════════════════════════════ */
+const sb=document.getElementById('scroll-bar');
+window.addEventListener('scroll',()=>{
+  const t=document.documentElement;
+  const pct=t.scrollTop/(t.scrollHeight-t.clientHeight)*100;
+  sb.style.width=pct+'%';
+},{ passive:true });
+
+/* ═══════════════════════════════════════
+   MARQUEE BUILDER
+   ═══════════════════════════════════════ */
+function buildMarquee(){
+  const t=document.getElementById('marquee-about');
+  if(!t) return;
+  const items=MARQUEE_WORDS.map(w=>
+    `<span class="marquee-item">${w}<span class="dot">■</span></span>`
+  ).join('');
+  t.innerHTML=items+items; // duplicate for seamless loop
+}
+
+/* ═══════════════════════════════════════
+   FADE-UP OBSERVER
+   ═══════════════════════════════════════ */
+const fuObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.07});
+function triggerFU(){
+  document.querySelectorAll('.page.active .fu').forEach(el=>fuObs.observe(el));
+}
+
+/* ═══════════════════════════════════════
+   DRAG SCROLL
+   ═══════════════════════════════════════ */
+function initDrag(el){
+  if(!el) return;
+  let down=false,sx,sl;
+  el.addEventListener('mousedown',e=>{down=true;el.classList.add('grabbing');sx=e.pageX-el.offsetLeft;sl=el.scrollLeft;e.preventDefault();});
+  el.addEventListener('mouseleave',()=>{down=false;el.classList.remove('grabbing');});
+  el.addEventListener('mouseup',()=>{down=false;el.classList.remove('grabbing');});
+  el.addEventListener('mousemove',e=>{if(!down)return;el.scrollLeft=sl-(e.pageX-el.offsetLeft-sx)*1.4;});
+  let tx;
+  el.addEventListener('touchstart',e=>{tx=e.touches[0].pageX;sl=el.scrollLeft;},{passive:true});
+  el.addEventListener('touchmove',e=>{el.scrollLeft=sl-(e.touches[0].pageX-tx);},{passive:true});
+}
+document.querySelectorAll('.strip').forEach(initDrag);
+
+/* ═══════════════════════════════════════
+   AVIATION COUNTERS
+   ═══════════════════════════════════════ */
+let countersRan=false;
+function runCounters(){
+  if(countersRan) return; countersRan=true;
+  document.querySelectorAll('.counter').forEach(el=>{
+    const target=parseFloat(el.dataset.target)||0;
+    if(target===0) return;
+    const dur=1600,step=16;
+    let cur=0,t=0;
+    const id=setInterval(()=>{
+      t+=step;
+      cur=Math.round(target*(t/dur));
+      if(t>=dur){cur=target;clearInterval(id);}
+      el.textContent=cur;
+    },step);
+  });
+}
+
+/* ═══════════════════════════════════════
+   PHOTO SERIES MODAL
+   ═══════════════════════════════════════ */
+function openModal(sid){
+  const d=SERIES[sid]; if(!d) return;
+  const title=document.getElementById('modal-title');
+  title.textContent=T[LANG][d.tk]||sid;
+  title._sk=d.tk;
+  document.getElementById('modal-grid').innerHTML=
+    d.photos.map((p,i)=>
+      `<img src="${p.src}" alt="" loading="lazy" onclick="openLB(this,'${sid}',${i})">`
+    ).join('');
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* ═══════════════════════════════════════
+   INDIVIDUAL PHOTO LIGHTBOX
+   ═══════════════════════════════════════ */
+let lbSeries='',lbIdx=0;
+function openLB(imgEl,sid,idx){
+  _lbArr=[]; /* clear project-gallery array so arrows correctly navigate this series */
+  lbSeries=sid; lbIdx=idx;
+  renderLB();
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+/* closeLB is defined above in the project-gallery section — single definition */
+function lbNav(dir){
+  if(_lbArr.length){
+    _lbI = (_lbI + dir + _lbArr.length) % _lbArr.length;
+    document.getElementById('lb-img').src = _lbArr[_lbI];
+    document.getElementById('lb-counter').textContent = (_lbI + 1) + ' / ' + _lbArr.length;
+    selectThumb(_lbI);
+    return;
+  }
+
+  const photos = SERIES[lbSeries]?.photos || [];
+  if(!photos.length) return;
+  lbIdx = (lbIdx + dir + photos.length) % photos.length;
+  renderLB();
+}
+function renderLB(){
+  const photos=SERIES[lbSeries]?.photos||[];
+  if(!photos.length) return;
+  document.getElementById('lb-img').src=photos[lbIdx].src;
+  document.getElementById('lb-counter').textContent=(lbIdx+1)+' / '+photos.length;
+}
+document.getElementById('lb').addEventListener('click',e=>{if(e.target===e.currentTarget) closeLB();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeLB();closeModal();}
+  if(document.getElementById('lb').classList.contains('open')){
+    if(e.key==='ArrowLeft') lbNav(-1);
+    if(e.key==='ArrowRight') lbNav(1);
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   SOLAR CLOCK GRAPHIC ENGINE  — ASSET F3
+   Sun travels left → right during day (rotate(180) on asset-main).
+   Latitude sourced from browser geolocation; falls back silently
+   to Prague (50.08°N) if permission is denied or unavailable.
+   ═══════════════════════════════════════════════════════════════ */
+(function initSolarClock(){
+  const el=id=>document.getElementById(id);
+  const suns=[el('sun-day'),el('sun-night-solid'),el('sun-night-stroke')];
+  const perimIdle   = el('earth-stroke-idle');
+  const perimActive = el('earth-stroke-active');
+  const shadowFx    = el('fe-shadow');
+  const innerOrbit  = el('inner-orbit');
+  const hourHand    = el('hour-hand');
+  const minuteHand  = el('minute-hand');
+  const dropLine    = el('drop-line');
+  const arc         = el('circumference-arc');
+  const trigger     = el('hover-trigger');
+  const maskCircle  = el('inner-orbit-mask-circle');
+  if(!trigger) return;
+
+  let morph=0, hovered=false;
+  const C=2*Math.PI*60;
+
+  // ── Geolocation ───────────────────────────────────────────────
+  // Default latitude: Prague (50.08°N). Updated silently when the
+  // browser grants location permission. No UI, no error shown.
+  let geoLat = 50.08;
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      pos => { geoLat = pos.coords.latitude; },
+      ()  => { /* permission denied — keep default */ },
+      { timeout: 8000, maximumAge: 3600000 }
+    );
+  }
+
+  trigger.addEventListener('mouseenter',()=>hovered=true);
+  trigger.addEventListener('mouseleave',()=>hovered=false);
+  trigger.addEventListener('touchstart',()=>hovered=true,{passive:true});
+  trigger.addEventListener('touchend',  ()=>hovered=false,{passive:true});
+
+  function syncShadow(){
+    const dark=document.documentElement.getAttribute('data-theme')==='dark';
+    shadowFx.setAttribute('flood-color', dark?'#ffffff':'#000000');
+  }
+  new MutationObserver(syncShadow)
+    .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  syncShadow();
+
+  function coords(deg,r){
+    const rad=(deg-90)*Math.PI/180;
+    return{x:300+r*Math.cos(rad),y:200+r*Math.sin(rad)};
+  }
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+
+  function solar(d){
+    // Day-length calculation using live latitude
+    const s=new Date(d.getFullYear(),0,0);
+    const doy=Math.floor((d-s)/86400000);
+    const decl=23.45*Math.sin(2*Math.PI*(284+doy)/365);
+    const lr=geoLat*Math.PI/180;          // ← live latitude (degrees → radians)
+    const dr=decl*Math.PI/180;
+    let cosH=Math.max(-1,Math.min(1,-Math.tan(lr)*Math.tan(dr)));
+    const dayMin=(Math.acos(cosH)*180/Math.PI/15)*60;
+    const tot=d.getHours()*60+d.getMinutes()+d.getSeconds()/60;
+    const rise=720-dayMin, set=720+dayMin;
+    const isDay=tot>=rise&&tot<=set;
+    let theta;
+    if(isDay){ theta=((tot-rise)/(set-rise))*Math.PI; }
+    else{
+      let p=tot>set?(tot-set)/(1440-(set-rise)):(tot+1440-set)/(1440-(set-rise));
+      theta=Math.PI+p*Math.PI;
+    }
+    // F3 inversion: asset-main is rotated 180°, so negate cos to keep
+    // the sun moving left → right during daytime as seen on screen.
+    const px=300-200*Math.cos(theta);
+    suns.forEach(s=>s.setAttribute('cx',px));
+    suns[0].style.display=isDay?'block':'none';
+  }
+
+  function tick(){
+    morph=Math.max(0,Math.min(1,morph+(hovered?.020:-.020)));
+    const now=new Date();
+    const p1=Math.min(1,morph/.2);
+    const p2=Math.max(0,Math.min(1,(morph-.2)/.3));
+    const p3=Math.max(0,Math.min(1,(morph-.58)/.42));
+
+    if(morph>0){
+      perimIdle.style.opacity=0;
+      perimActive.style.opacity=1;
+      perimActive.setAttribute('stroke-width',2+4*p1);
+    }else{
+      perimIdle.style.opacity=1;
+      perimActive.style.opacity=0;
+      perimActive.setAttribute('stroke-width',2);
+    }
+    shadowFx.setAttribute('flood-opacity',.32*morph);
+
+    if(morph<=.2){
+      [dropLine,innerOrbit,hourHand,minuteHand,arc].forEach(e=>e.style.opacity=0);
+      maskCircle.setAttribute('stroke-dashoffset',C);
+    } else if(morph<=.5){
+      dropLine.style.opacity=1;
+      dropLine.setAttribute('y2',80+120*p2);
+      [innerOrbit,hourHand,minuteHand,arc].forEach(e=>e.style.opacity=0);
+      maskCircle.setAttribute('stroke-dashoffset',C);
+    } else if(morph<=.58){
+      dropLine.style.opacity=1;
+      dropLine.setAttribute('y2',200);
+      [innerOrbit,hourHand,minuteHand,arc].forEach(e=>e.style.opacity=0);
+      maskCircle.setAttribute('stroke-dashoffset',C);
+    } else {
+      dropLine.style.opacity=0;
+      [innerOrbit,hourHand,minuteHand,arc].forEach(e=>e.style.opacity=1);
+      const ep3=ease(p3);
+      maskCircle.setAttribute('stroke-dashoffset',C*(1-ep3));
+
+      let nH=(now.getHours()%12)*30+now.getMinutes()*.5;
+      let nM=now.getMinutes()*6+now.getSeconds()*.1;
+      let opts=[{h:nH,m:nM},{h:nH-360,m:nM-360},{h:nH,m:nM-360},{h:nH-360,m:nM}];
+      let safe=opts.filter(o=>Math.abs(o.h-o.m)<=180);
+      if(!safe.length) safe=opts;
+      let best=safe.reduce((a,b)=>Math.abs(b.h)+Math.abs(b.m)<Math.abs(a.h)+Math.abs(a.m)?b:a);
+
+      const hTip =coords(best.h*ep3,60);
+      const mBase=coords(best.m*ep3,60);
+      const mTip =coords(best.m*ep3,120);
+      hourHand.setAttribute('x2',hTip.x);   hourHand.setAttribute('y2',hTip.y);
+      minuteHand.setAttribute('x1',mBase.x); minuteHand.setAttribute('y1',mBase.y);
+      minuteHand.setAttribute('x2',mTip.x);  minuteHand.setAttribute('y2',mTip.y);
+      arc.setAttribute('d',`M ${hTip.x} ${hTip.y} A 60 60 0 0 ${(best.m-best.h)>=0?1:0} ${mBase.x} ${mBase.y}`);
+    }
+
+    solar(now);
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTACT FORM — Powered by Formspree (free tier, no backend needed)
+   ─────────────────────────────────────────────────────────────────
+   HOW TO SET UP (takes ~2 minutes):
+   1. Go to https://formspree.io and create a FREE account
+   2. Click "New Form", give it a name (e.g. "Portfolio Contact")
+   3. Copy your Form ID — it looks like "xabc1234" (8 characters)
+   4. Replace YOUR_FORM_ID below with that ID
+   5. Formspree will email you every submission at your signup email
+   6. First submission requires you to click a confirmation email
+   ─────────────────────────────────────────────────────────────────
+   ALTERNATIVE: Replace the fetch URL with any compatible endpoint:
+   - EmailJS:   https://emailjs.com  (also free, JS-only)
+   - Web3Forms: https://web3forms.com (very easy setup)
+   ═══════════════════════════════════════════════════════════════ */
+const FORMSPREE_ID = 'xojoqzla'; // ← paste your 8-char Formspree ID here
+
+async function submitForm(e){
+  e.preventDefault();
+  const btn = e.target;
+  const orig = btn.textContent;
+
+  const name  = document.getElementById('f-nm').value.trim();
+  const email = document.getElementById('f-em').value.trim();
+  const subj  = document.getElementById('f-sb').value.trim();
+  const msg   = document.getElementById('f-ms').value.trim();
+
+  /* ── client-side validation ── */
+  if(!name || !email || !msg){
+    btn.textContent = '! Fill required fields';
+    btn.style.background = 'var(--accent)'; btn.style.color = '#fff';
+    setTimeout(()=>{ btn.textContent = orig; btn.style.background=''; btn.style.color=''; }, 2800);
+    return;
+  }
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!emailOk){
+    btn.textContent = '! Invalid email';
+    btn.style.background = 'var(--accent)'; btn.style.color = '#fff';
+    setTimeout(()=>{ btn.textContent = orig; btn.style.background=''; btn.style.color=''; }, 2800);
+    return;
+  }
+
+  /* ── if Formspree ID hasn't been set yet, open mailto as fallback ── */
+  if(FORMSPREE_ID === 'YOUR_FORM_ID'){
+    const body = encodeURIComponent(`From: ${name} <${email}>\nSubject: ${subj}\n\n${msg}`);
+    window.location.href = `mailto:hello@yourname.com?subject=${encodeURIComponent(subj||'Portfolio contact')}&body=${body}`;
+    return;
+  }
+
+  btn.textContent = '··· Sending'; btn.disabled = true;
+  btn.style.opacity = '.7';
+
+  try{
+    const resp = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+      body: JSON.stringify({ name, email, subject: subj, message: msg })
+    });
+    if(resp.ok){
+      btn.textContent = '✓ Sent!';
+      btn.style.background = '#27ae60'; btn.style.color = '#fff'; btn.style.opacity = '1';
+      /* clear the form */
+      ['f-nm','f-em','f-sb','f-ms'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.value = '';
+      });
+      setTimeout(()=>{ btn.textContent = orig; btn.style.background=''; btn.style.color=''; }, 4000);
+    } else {
+      throw new Error('Server returned ' + resp.status);
+    }
+  } catch(err){
+    btn.textContent = '✗ Failed — try email';
+    btn.style.background = 'var(--accent)'; btn.style.color = '#fff'; btn.style.opacity = '1';
+    setTimeout(()=>{ btn.textContent = orig; btn.style.background=''; btn.style.color=''; }, 4000);
+  }
+  btn.disabled = false; btn.style.opacity = '';
+}
+
+/* ═══════════════════════════════════════
+   BOOT
+   ═══════════════════════════════════════ */
+(function boot(){
+  // Theme
+  const theme=localStorage.getItem('theme')||'dark';
+  document.documentElement.setAttribute('data-theme',theme);
+  const sym=theme==='dark'?'◑':'◐';
+  document.getElementById('theme-btn').textContent=sym;
+  document.getElementById('m-th').textContent=sym;
+  applyThemeLogos(theme);
+
+  // Language
+  setLang(LANG);
+
+  document.querySelectorAll('.proj-card').forEach(card=>{
+    const id=card.getAttribute('data-project');
+    if(!id||!PROJECTS[id]) return;
+    const hero=PROJECTS[id].images?.[0];
+    const img=card.querySelector('.proj-img');
+    if(hero && img){
+      img.src=hero;
+      img.alt=(PROJECTS[id][LANG]||PROJECTS[id].en).title||'';
+    }
+  });
+
+  // Marquee
+  buildMarquee();
+
+  // Route — restore whatever page the user was on before the reload
+  const _bootHash = location.hash.slice(1);
+  if(_bootHash.startsWith('project/')){
+    const _pid = _bootHash.slice(8);
+    if(PROJECTS[_pid]){ openProject(_pid); }
+    else{ go('about'); }
+  } else {
+    const _startPage = PAGES.includes(_bootHash) ? _bootHash : 'about';
+    /* replaceState so the initial slot already has the correct page — avoids
+       a phantom history entry at the bottom of the back stack. */
+    _replaceHash(_startPage);
+    go(_startPage);
+  }
+
+  // Loader
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hidden');
+  },1350);
+})();
+</script>
+</body>
+</html>

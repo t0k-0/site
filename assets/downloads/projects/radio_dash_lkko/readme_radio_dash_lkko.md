@@ -34,5 +34,5 @@ Aplikace má za úkol efektivně využít prostor obrazovky během leteckého pr
 
 
 
-\*\*GitHub Deployment:\*\* https://t0k-0.github.io/radio\_dash\_lkko/
+**GitHub Deployment:** https://t0k-0.github.io/radio\_dash\_lkko/
 

@@ -1,0 +1,38 @@
+# RADIO DASH (LKKO)
+
+## VAROVÁNÍ / WARNING
+
+Informace poskytované tímto systémem jsou NEGARANTOVANÉ. Tvůrce neručí za jejich správnost a nebere odpovědnost za jakoukoli situaci vzniklou v následku jejich použití.
+
+### Popis
+
+Radio DASH je software vytvořen pomocí **Claude AI (Sonnet 4.6)** na základě *HTML* souboru od **Štěpána Bartoše** s názvem "Radio Watch", ze kterého byl přejat zejména segment s 3D řešením prostorů TRA GA (1A-D, 2A-D) LKKO.
+
+### Funkce
+
+Aplikace má za úkol efektivně využít prostor obrazovky během leteckého provozu na věži. Rozložení formy dashboard umožňuje přehledně zobrazit aktuální informace o provozu. Pro více informací lze scrollovat níže.
+
+##### *Seznam funkcí*
+
+|Funkce|Popis|
+|-|-|
+||LOKACE: ***HORNÍ STATICKÁ LIŠTA***|
+|Text "LKKO"|*Nadpis určující zónu rozsahu informací.*|
+|Ukazatel času (LT/UTC)|*Hodiny ve formátu HH:MM:SS (Lokální čas vlevo, UTC vpravo)*|
+|LKCV QNH tab|*Indikátor statusu zprávy METAR z LKCV a výpis informace QNH z ní. V době tvorby aplikace služba nefunguje a nebylo možno funkci otestovat.*|
+|Indikátor stavu notifikací|*Ukazuje, zda má uživatel zapnuté notifikace pro časové limity rádiového kontaktu*|
+|Text frekvence|*Ukazuje aktivní frekvenci pro LKKO*|
+||LOKACE: ***OKNA HLAVNÍHO PANELU (Default position)***|
+|3D Zobrazení prostorů, legenda|*Přepínatelné 3D/2D zobrazení aktivních prostorů TRA GA LKKO, světových stran, směru dráhy a polohy letiště. V pravo dole je převodník (ft-m)*|
+|Seznam aktivního provozu|*Ukazuje veškerý aktivní provoz, který byl zadán a řadí jej shora podle času posledního rádiového kontaktu. Barevně rozlišuje různé stavy časovače. Disponuje pamětí na jeden krok zpět v případě chybného zadání. Vpravo nahoře je počítadlo aktivního provozu. V seznamu je možno přidat poznámku, odstranit provoz, upravit časovač, nebo zadáním textu "PARA" do poznámky přidat ikonu padáčku před slot letadla.*|
+||LOKACE: ***SPODNÍ STATICKÁ LIŠTA***|
+|Tlačítko aktivace prostorů|*Otevírá okno se sloty pro jednotlivé prostory TRA GA umožňující jejich aktivaci. Umožňuje také hromadné úpravy k aktivacím pro skupiny 1A-D a 2A-D. Nad sloty pro aktivaci je vyňatek z koordinační dohody týkající se frazeologie.*|
+|Tlačítko zobrazení|*Při stisku prochází cyklem zobrazení pro hlavní panel v následujícím pořadí: Split (Default), Pouze prostory, Pouze provoz.*|
+|Zadávací řádek|*Umožňuje zadání nového letadla do provozu. Při zadávání zobrazuje presety letadel pro rychlé zadávání.*|
+|Tlačítko nastavení|*Otevírá okno nastavení aplikace. Nastavení shora: limity časovače kontaktu, notifikace prohlížeče, Vzhled (nedoporučeno), Tlačítko správy presetů, Nastavení klávesových zkratek, seznam needitovatelných zkratek.*|
+|-> Správa presetů|*Otevírá okno správy presetů. Nahoře je možnost hromadného smazání všech presetů, zelený řádek umožňuje načíst přednastavený balíček často aktivních letadel pro LKKO, Seznam umožňuje odstranit jednotlivé presety. Sloty dole umožňují přidání nového presetu letadla*|
+
+
+
+\*\*GitHub Deployment:\*\* https://t0k-0.github.io/radio\_dash\_lkko/
+

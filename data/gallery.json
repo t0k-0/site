@@ -1,0 +1,1042 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-28T12:46:25.263Z",
+  "series": [
+    {
+      "id": "nature",
+      "name": {
+        "cs": "Příroda",
+        "en": "Nature"
+      },
+      "description": {
+        "cs": "Zvířata, krajina a tiché chvíle mimo město.",
+        "en": "Wildlife, landscapes, and quiet moments beyond the city."
+      },
+      "cover": "assets/img/thumbs/nature/IMG_8738.jpg",
+      "photos": [
+        {
+          "src": "assets/img/series/nature/IMG_0769.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_0769.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 0769",
+            "en": "Nature — IMG 0769"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/nature/IMG_0772.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_0772.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 0772",
+            "en": "Nature — IMG 0772"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_1612.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_1612.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 1612",
+            "en": "Nature — IMG 1612"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_3476.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_3476.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 3476",
+            "en": "Nature — IMG 3476"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_3557.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_3557.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 3557",
+            "en": "Nature — IMG 3557"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/nature/IMG_3565 - Varianta 1.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_3565 - Varianta 1.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 3565",
+            "en": "Nature — IMG 3565"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_4508.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_4508.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 4508",
+            "en": "Nature — IMG 4508"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_4662.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_4662.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 4662",
+            "en": "Nature — IMG 4662"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_4725.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_4725.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 4725",
+            "en": "Nature — IMG 4725"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_4738 (1).jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_4738 (1).jpg",
+          "alt": {
+            "cs": "Příroda — IMG 4738",
+            "en": "Nature — IMG 4738"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/nature/IMG_4741.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_4741.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 4741",
+            "en": "Nature — IMG 4741"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_4743 (1).jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_4743 (1).jpg",
+          "alt": {
+            "cs": "Příroda — IMG 4743",
+            "en": "Nature — IMG 4743"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_5363.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_5363.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 5363",
+            "en": "Nature — IMG 5363"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/nature/IMG_7287.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_7287.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 7287",
+            "en": "Nature — IMG 7287"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_7291.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_7291.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 7291",
+            "en": "Nature — IMG 7291"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_7323.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_7323.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 7323",
+            "en": "Nature — IMG 7323"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_8592 - Varianta 2.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_8592 - Varianta 2.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 8592",
+            "en": "Nature — IMG 8592"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/nature/IMG_8727.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_8727.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 8727",
+            "en": "Nature — IMG 8727"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/nature/IMG_8738.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_8738.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 8738",
+            "en": "Nature — IMG 8738"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/nature/IMG_8786.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_8786.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 8786",
+            "en": "Nature — IMG 8786"
+          }
+        },
+        {
+          "src": "assets/img/series/nature/IMG_8838.jpg",
+          "thumb": "assets/img/thumbs/nature/IMG_8838.jpg",
+          "alt": {
+            "cs": "Příroda — IMG 8838",
+            "en": "Nature — IMG 8838"
+          }
+        }
+      ]
+    },
+    {
+      "id": "architecture",
+      "name": {
+        "cs": "Architektura a ulice",
+        "en": "Architecture & street"
+      },
+      "description": {
+        "cs": "Geometrie, rytmus a náhodná setkání ve veřejném prostoru.",
+        "en": "Geometry, rhythm, and chance encounters in public space."
+      },
+      "cover": "assets/img/thumbs/architecture, street/zIMG_9437.jpg",
+      "photos": [
+        {
+          "src": "assets/img/series/architecture, street/DSC07074 (1).jpg",
+          "thumb": "assets/img/thumbs/architecture, street/DSC07074 (1).jpg",
+          "alt": {
+            "cs": "Architektura a ulice — DSC07074",
+            "en": "Architecture & street — DSC07074"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/DSC08110.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/DSC08110.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — DSC08110",
+            "en": "Architecture & street — DSC08110"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/DSC08118 - Varianta 1.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/DSC08118 - Varianta 1.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — DSC08118",
+            "en": "Architecture & street — DSC08118"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_0201 (1).jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_0201 (1).jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 0201",
+            "en": "Architecture & street — IMG 0201"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_0359.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_0359.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 0359",
+            "en": "Architecture & street — IMG 0359"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_0368.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_0368.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 0368",
+            "en": "Architecture & street — IMG 0368"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_2023.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_2023.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 2023",
+            "en": "Architecture & street — IMG 2023"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_2024.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_2024.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 2024",
+            "en": "Architecture & street — IMG 2024"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_2030.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_2030.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 2030",
+            "en": "Architecture & street — IMG 2030"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_2220.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_2220.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 2220",
+            "en": "Architecture & street — IMG 2220"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_3198 (2).jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_3198 (2).jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 3198",
+            "en": "Architecture & street — IMG 3198"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_3775 (1).jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_3775 (1).jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 3775",
+            "en": "Architecture & street — IMG 3775"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_4174.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_4174.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 4174",
+            "en": "Architecture & street — IMG 4174"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_4638.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_4638.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 4638",
+            "en": "Architecture & street — IMG 4638"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_5035.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_5035.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 5035",
+            "en": "Architecture & street — IMG 5035"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_5780.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_5780.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 5780",
+            "en": "Architecture & street — IMG 5780"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_7226 (1).jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_7226 (1).jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 7226",
+            "en": "Architecture & street — IMG 7226"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_7668.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_7668.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 7668",
+            "en": "Architecture & street — IMG 7668"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8418.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8418.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8418",
+            "en": "Architecture & street — IMG 8418"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8435.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8435.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8435",
+            "en": "Architecture & street — IMG 8435"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8444.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8444.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8444",
+            "en": "Architecture & street — IMG 8444"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8531.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8531.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8531",
+            "en": "Architecture & street — IMG 8531"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8566.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8566.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8566",
+            "en": "Architecture & street — IMG 8566"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8587.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8587.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8587",
+            "en": "Architecture & street — IMG 8587"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8606.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8606.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8606",
+            "en": "Architecture & street — IMG 8606"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8645.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8645.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8645",
+            "en": "Architecture & street — IMG 8645"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8654.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8654.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8654",
+            "en": "Architecture & street — IMG 8654"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/IMG_8688 (1).jpg",
+          "thumb": "assets/img/thumbs/architecture, street/IMG_8688 (1).jpg",
+          "alt": {
+            "cs": "Architektura a ulice — IMG 8688",
+            "en": "Architecture & street — IMG 8688"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/zIMG_9342 (1).jpg",
+          "thumb": "assets/img/thumbs/architecture, street/zIMG_9342 (1).jpg",
+          "alt": {
+            "cs": "Architektura a ulice — zIMG 9342",
+            "en": "Architecture & street — zIMG 9342"
+          }
+        },
+        {
+          "src": "assets/img/series/architecture, street/zIMG_9437.jpg",
+          "thumb": "assets/img/thumbs/architecture, street/zIMG_9437.jpg",
+          "alt": {
+            "cs": "Architektura a ulice — zIMG 9437",
+            "en": "Architecture & street — zIMG 9437"
+          },
+          "preview": true
+        }
+      ]
+    },
+    {
+      "id": "studio",
+      "name": {
+        "cs": "Studio",
+        "en": "Studio"
+      },
+      "description": {
+        "cs": "Kontrolované světlo, portrét a obrazové experimenty.",
+        "en": "Controlled light, portraiture, and image experiments."
+      },
+      "cover": "assets/img/thumbs/studio/IMG_8156 (2)LAYERS.jpg",
+      "photos": [
+        {
+          "src": "assets/img/series/studio/DSC07146.jpg",
+          "thumb": "assets/img/thumbs/studio/DSC07146.jpg",
+          "alt": {
+            "cs": "Studio — DSC07146",
+            "en": "Studio — DSC07146"
+          }
+        },
+        {
+          "src": "assets/img/series/studio/IMG_2689.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_2689.jpg",
+          "alt": {
+            "cs": "Studio — IMG 2689",
+            "en": "Studio — IMG 2689"
+          }
+        },
+        {
+          "src": "assets/img/series/studio/IMG_2725.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_2725.jpg",
+          "alt": {
+            "cs": "Studio — IMG 2725",
+            "en": "Studio — IMG 2725"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/studio/IMG_2727.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_2727.jpg",
+          "alt": {
+            "cs": "Studio — IMG 2727",
+            "en": "Studio — IMG 2727"
+          }
+        },
+        {
+          "src": "assets/img/series/studio/IMG_2732.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_2732.jpg",
+          "alt": {
+            "cs": "Studio — IMG 2732",
+            "en": "Studio — IMG 2732"
+          }
+        },
+        {
+          "src": "assets/img/series/studio/IMG_2805.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_2805.jpg",
+          "alt": {
+            "cs": "Studio — IMG 2805",
+            "en": "Studio — IMG 2805"
+          }
+        },
+        {
+          "src": "assets/img/series/studio/IMG_4890 (2).jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_4890 (2).jpg",
+          "alt": {
+            "cs": "Studio — IMG 4890",
+            "en": "Studio — IMG 4890"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/studio/IMG_6752.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_6752.jpg",
+          "alt": {
+            "cs": "Studio — IMG 6752",
+            "en": "Studio — IMG 6752"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/studio/IMG_6753.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_6753.jpg",
+          "alt": {
+            "cs": "Studio — IMG 6753",
+            "en": "Studio — IMG 6753"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/studio/IMG_6840.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_6840.jpg",
+          "alt": {
+            "cs": "Studio — IMG 6840",
+            "en": "Studio — IMG 6840"
+          }
+        },
+        {
+          "src": "assets/img/series/studio/IMG_8118JP - Varianta 1.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_8118JP - Varianta 1.jpg",
+          "alt": {
+            "cs": "Studio — IMG 8118JP",
+            "en": "Studio — IMG 8118JP"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/studio/IMG_8118JP.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_8118JP.jpg",
+          "alt": {
+            "cs": "Studio — IMG 8118JP",
+            "en": "Studio — IMG 8118JP"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/studio/IMG_8156 (2)LAYERS.jpg",
+          "thumb": "assets/img/thumbs/studio/IMG_8156 (2)LAYERS.jpg",
+          "alt": {
+            "cs": "Studio — IMG 8156LAYERS",
+            "en": "Studio — IMG 8156LAYERS"
+          },
+          "preview": true
+        }
+      ]
+    },
+    {
+      "id": "aviation",
+      "name": {
+        "cs": "Letectví",
+        "en": "Aviation"
+      },
+      "description": {
+        "cs": "Letadla, letiště a život kolem létání.",
+        "en": "Aircraft, airfields, and life around flying."
+      },
+      "cover": "assets/img/thumbs/aviation/IMG_8016 (1).jpg",
+      "photos": [
+        {
+          "src": "assets/img/series/aviation/DSC02047.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC02047.jpg",
+          "alt": {
+            "cs": "Letectví — DSC02047",
+            "en": "Aviation — DSC02047"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/DSC02610.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC02610.jpg",
+          "alt": {
+            "cs": "Letectví — DSC02610",
+            "en": "Aviation — DSC02610"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/DSC02741 - Varianta 1.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC02741 - Varianta 1.jpg",
+          "alt": {
+            "cs": "Letectví — DSC02741",
+            "en": "Aviation — DSC02741"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/DSC02906.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC02906.jpg",
+          "alt": {
+            "cs": "Letectví — DSC02906",
+            "en": "Aviation — DSC02906"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/DSC02949_104732.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC02949_104732.jpg",
+          "alt": {
+            "cs": "Letectví — DSC02949 104732",
+            "en": "Aviation — DSC02949 104732"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/DSC02974 - Varianta 1_104850.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC02974 - Varianta 1_104850.jpg",
+          "alt": {
+            "cs": "Letectví — DSC02974 104850",
+            "en": "Aviation — DSC02974 104850"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/DSC03022.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC03022.jpg",
+          "alt": {
+            "cs": "Letectví — DSC03022",
+            "en": "Aviation — DSC03022"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/DSC03071 - Varianta 1_104932.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC03071 - Varianta 1_104932.jpg",
+          "alt": {
+            "cs": "Letectví — DSC03071 104932",
+            "en": "Aviation — DSC03071 104932"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/DSC03147_105050.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC03147_105050.jpg",
+          "alt": {
+            "cs": "Letectví — DSC03147 105050",
+            "en": "Aviation — DSC03147 105050"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/DSC03598.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC03598.jpg",
+          "alt": {
+            "cs": "Letectví — DSC03598",
+            "en": "Aviation — DSC03598"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/DSC03609.jpg",
+          "thumb": "assets/img/thumbs/aviation/DSC03609.jpg",
+          "alt": {
+            "cs": "Letectví — DSC03609",
+            "en": "Aviation — DSC03609"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_2363 (1).jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_2363 (1).jpg",
+          "alt": {
+            "cs": "Letectví — IMG 2363",
+            "en": "Aviation — IMG 2363"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_2363.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_2363.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 2363",
+            "en": "Aviation — IMG 2363"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_3072.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_3072.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 3072",
+            "en": "Aviation — IMG 3072"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_3767.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_3767.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 3767",
+            "en": "Aviation — IMG 3767"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_3823.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_3823.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 3823",
+            "en": "Aviation — IMG 3823"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_3845.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_3845.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 3845",
+            "en": "Aviation — IMG 3845"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_3850.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_3850.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 3850",
+            "en": "Aviation — IMG 3850"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_4094.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_4094.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 4094",
+            "en": "Aviation — IMG 4094"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_4099 - Varianta 1.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_4099 - Varianta 1.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 4099",
+            "en": "Aviation — IMG 4099"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_4370 (1).jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_4370 (1).jpg",
+          "alt": {
+            "cs": "Letectví — IMG 4370",
+            "en": "Aviation — IMG 4370"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_5555.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_5555.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 5555",
+            "en": "Aviation — IMG 5555"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_5580.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_5580.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 5580",
+            "en": "Aviation — IMG 5580"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_5585.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_5585.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 5585",
+            "en": "Aviation — IMG 5585"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_5850 - Varianta 1 - Varianta 1 (1).jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_5850 - Varianta 1 - Varianta 1 (1).jpg",
+          "alt": {
+            "cs": "Letectví — IMG 5850",
+            "en": "Aviation — IMG 5850"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_5906.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_5906.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 5906",
+            "en": "Aviation — IMG 5906"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_5926.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_5926.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 5926",
+            "en": "Aviation — IMG 5926"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6032.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6032.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6032",
+            "en": "Aviation — IMG 6032"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6110.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6110.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6110",
+            "en": "Aviation — IMG 6110"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6251.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6251.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6251",
+            "en": "Aviation — IMG 6251"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6266 (1).jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6266 (1).jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6266",
+            "en": "Aviation — IMG 6266"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6283.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6283.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6283",
+            "en": "Aviation — IMG 6283"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6310 - Varianta 1.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6310 - Varianta 1.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6310",
+            "en": "Aviation — IMG 6310"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6316 (1).jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6316 (1).jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6316",
+            "en": "Aviation — IMG 6316"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6331.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6331.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6331",
+            "en": "Aviation — IMG 6331"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6622.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6622.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6622",
+            "en": "Aviation — IMG 6622"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_6997.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_6997.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 6997",
+            "en": "Aviation — IMG 6997"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7040.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7040.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7040",
+            "en": "Aviation — IMG 7040"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7200.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7200.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7200",
+            "en": "Aviation — IMG 7200"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7239.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7239.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7239",
+            "en": "Aviation — IMG 7239"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7377.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7377.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7377",
+            "en": "Aviation — IMG 7377"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7410.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7410.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7410",
+            "en": "Aviation — IMG 7410"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7635.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7635.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7635",
+            "en": "Aviation — IMG 7635"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7642 (2).jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7642 (2).jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7642",
+            "en": "Aviation — IMG 7642"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7728.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7728.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7728",
+            "en": "Aviation — IMG 7728"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7744.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7744.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7744",
+            "en": "Aviation — IMG 7744"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7910.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7910.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7910",
+            "en": "Aviation — IMG 7910"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_7935.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_7935.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 7935",
+            "en": "Aviation — IMG 7935"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_8016 (1).jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_8016 (1).jpg",
+          "alt": {
+            "cs": "Letectví — IMG 8016",
+            "en": "Aviation — IMG 8016"
+          },
+          "preview": true
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_8081 - Varianta 2.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_8081 - Varianta 2.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 8081",
+            "en": "Aviation — IMG 8081"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_8892.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_8892.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 8892",
+            "en": "Aviation — IMG 8892"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_8905.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_8905.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 8905",
+            "en": "Aviation — IMG 8905"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_8913.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_8913.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 8913",
+            "en": "Aviation — IMG 8913"
+          }
+        },
+        {
+          "src": "assets/img/series/aviation/IMG_9607.jpg",
+          "thumb": "assets/img/thumbs/aviation/IMG_9607.jpg",
+          "alt": {
+            "cs": "Letectví — IMG 9607",
+            "en": "Aviation — IMG 9607"
+          }
+        }
+      ]
+    }
+  ]
+}

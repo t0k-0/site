@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "id": "plachtarsky-zpevnik",
+      "title": {"cs": "Plachtařský zpěvník", "en": "Gliding Songbook"},
+      "category": {"cs": "PDF · Design", "en": "PDF · Design"},
+      "summary": {"cs": "Nové vydání zpěvníku k 20. výročí původních Zpěvů letištních, připravené pro tisk.", "en": "A print-ready new edition marking twenty years since the original airfield songbook."},
+      "description": {"cs": "Sbírka původních i nových písní pro aeroklubové večery, nově doplněná o akordy. Publikace je rozdělena na leteckou a obecnou část, které odlišuje vlastní barevný systém.\nDesign vychází z technických popisů, letových příruček a vizuálního jazyka českého letectví. Volně pro osobní použití.", "en": "A collection of original and new songs for evenings at the airfield, now with chords. The publication is divided into aviation and general sections with distinct visual systems.\nIts design draws on technical manuals, flight documentation, and Czech aviation graphics. Free for personal use."},
+      "year": "2026",
+      "type": "download",
+      "link": "assets/downloads/projects/pl_zpevnik/Plachtarsky_zpevnik_2026.pdf",
+      "images": ["assets/img/projects/pl_zpevnik/cover.png", "assets/img/projects/pl_zpevnik/ex1.png", "assets/img/projects/pl_zpevnik/ex2.png", "assets/img/projects/pl_zpevnik/ex3.png"]
+    },
+    {
+      "id": "pilka",
+      "title": {"cs": "PilKa V.1.0", "en": "PilKa V.1.0"},
+      "category": {"cs": "Letectví · Design", "en": "Aviation · Design"},
+      "summary": {"cs": "Kompaktní pilotní pomůcka pro český GA VFR provoz ve formátu vizitky.", "en": "A business-card-sized quick reference for Czech GA VFR operations."},
+      "description": {"cs": "PilKa shromažďuje často používané frekvence, kontakt na FIC Praha, převodní hladiny, VMC minima a vybrané kódy odpovídače. Zadní strana nechává prostor pro vlastní poznámky.\nJde o neoficiální pomůcku; pro letové plánování je vždy nutné použít garantované oficiální zdroje.", "en": "PilKa gathers frequently used frequencies, the Prague FIC contact, transition levels, VMC minima, and selected transponder codes. Its reverse leaves room for notes.\nIt is an unofficial aid; pilots must always use guaranteed official sources for flight planning."},
+      "year": "2026",
+      "type": "download",
+      "link": "assets/downloads/projects/pilka/PilKa_1.0.zip",
+      "images": ["assets/img/projects/pilka/Snímek obrazovky 2026-06-10 205137.png"]
+    },
+    {
+      "id": "lekar",
+      "title": {"cs": "LeKar V.1.0", "en": "LeKar V.1.0"},
+      "category": {"cs": "Letectví · Informace", "en": "Aviation · Information"},
+      "summary": {"cs": "Letištní karta s důležitými informacemi pro přílet na konkrétní letiště.", "en": "An airport card with essential information for arriving at a specific airfield."},
+      "description": {"cs": "LeKar převádí důležité informace o letišti do přehledné karty velikosti vizitky: ICAO kód, frekvenci, dráhu, okruh, nadmořskou výšku, okolní prostory a kontakty.\nJde o neoficiální pomůcku; garantované informace poskytují pouze oficiální letecké zdroje.", "en": "LeKar condenses essential airport information into a business-card format: ICAO code, frequency, runway, circuit, elevation, nearby airspace, and contacts.\nIt is an unofficial aid; only official aviation sources provide guaranteed information."},
+      "year": "2025",
+      "type": "download",
+      "link": "assets/downloads/projects/lekar/LeKar_V.1.0.zip",
+      "images": ["assets/img/projects/lekar/Snímek obrazovky 2026-06-10 204947.png"]
+    },
+    {
+      "id": "smirka-mobile",
+      "title": {"cs": "Šmírka Mobile", "en": "GliderLog Mobile"},
+      "category": {"cs": "Letectví · Webová aplikace", "en": "Aviation · Web app"},
+      "summary": {"cs": "Mobilní aplikace pro zápis startů, posádek a letů během plachtařského dne.", "en": "A mobile app for recording launches, crews, and flights during a day of gliding."},
+      "description": {"cs": "Šmírka zjednodušuje terénní zápis letového provozu. Umí sestavit aerovlek i samostatný vzlet, pracovat s presety pilotů a letadel, párovat lety a exportovat denní log do PDF.\nRozhraní je navržené primárně pro telefon a lze je nainstalovat na domovskou obrazovku.", "en": "GliderLog simplifies recording airfield operations in the field. It can compose aerotows and single launches, manage pilot and aircraft presets, pair flights, and export the daily log as PDF.\nThe interface is designed for phones and can be installed to the home screen."},
+      "year": "2026",
+      "type": "website",
+      "link": "#",
+      "images": ["assets/img/projects/smirka_app/cover.png", "assets/img/projects/smirka_app/ex1.png", "assets/img/projects/smirka_app/ex2.png", "assets/img/projects/smirka_app/ex3.png", "assets/img/projects/smirka_app/ex4.png"]
+    },
+    {
+      "id": "radio-dash",
+      "title": {"cs": "Radio DASH LKKO", "en": "Radio DASH LKKO"},
+      "category": {"cs": "Letectví · Data", "en": "Aviation · Data"},
+      "summary": {"cs": "Přehledový software pro efektivní práci stanoviště Kolín RADIO.", "en": "A situational dashboard built for the Kolín RADIO position."},
+      "description": {"cs": "Dashboard soustřeďuje provozní informace do jediné obrazovky: aktivní provoz a čas posledního kontaktu, prostory TRA GA, frekvenci, čas a rychlé vstupy. Rozložení lze přepínat podle aktuální situace.\nZobrazené informace nejsou garantované a nenahrazují oficiální zdroje.", "en": "The dashboard concentrates operational information on one screen: active traffic and last-contact timers, TRA GA areas, frequency, time, and rapid input. Its layout can adapt to the current situation.\nDisplayed information is not guaranteed and does not replace official sources."},
+      "year": "2026",
+      "type": "website",
+      "link": "#",
+      "images": ["assets/img/projects/radio_dash_lkko/cover.jpg", "assets/img/projects/radio_dash_lkko/ex_1.jpg", "assets/img/projects/radio_dash_lkko/ex_2.jpg", "assets/img/projects/radio_dash_lkko/ex_3.jpg", "assets/img/projects/radio_dash_lkko/ex_4.jpg", "assets/img/projects/radio_dash_lkko/ex_5.jpg", "assets/img/projects/radio_dash_lkko/ex_6.jpg"]
+    }
+  ]
+}

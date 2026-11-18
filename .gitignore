@@ -1,0 +1,13 @@
+# Local visual-regression browser profiles and screenshots
+.tmp-*/
+.verify-*/
+.debug-*/
+verify-*.png
+current-home*.png
+.lighthouseci/
+lighthouse-*.html
+lighthouse-*.json
+
+# Platform/editor noise
+.DS_Store
+Thumbs.db

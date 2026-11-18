@@ -1,0 +1,10 @@
+{
+  "name": "tk-personal-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "check": "node --check scripts/app.js && node --check scripts/markdown.js && node --check scripts/serve.mjs && node --check scripts/generate-gallery.mjs && node --check scripts/audit-assets.mjs && node scripts/test-markdown.mjs && node scripts/check-site.mjs",
+    "audit:assets": "node scripts/audit-assets.mjs"
+  }
+}
